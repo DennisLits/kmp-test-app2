@@ -1,0 +1,59 @@
+apply plugin: 'kotlin-multiplatform'
+apply plugin: 'com.squareup.sqldelight'
+
+
+sqldelight {
+    WeatherDb {
+        packageName = "com.fhyber.multiweather"
+    }
+}
+
+
+kotlin {
+    targets {
+        /*
+        final def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneos") \
+                              ? presets.iosArm64 : presets.iosX64
+        fromPreset(iOSTarget, 'iOS') {
+            binaries {
+                framework('SharedCode')
+            }
+        }
+        */
+
+
+        fromPreset(presets.jvm, 'android')
+    }
+
+    sourceSets {
+        commonMain.dependencies {
+            implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
+            implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
+
+
+
+
+        }
+
+        androidMain.dependencies {
+            implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+
+            implementation "com.squareup.sqldelight:android-driver:1.1.1"
+        }
+        /*
+        iOSMain.dependencies {
+            // implementation "com.squareup.sqldelight:ios-driver:1.1.1"
+
+            // You'll also need to have SQLite linked via -lsqlite3 during compilation.
+            // THIS IS CODE ADDED INTO THE PRESET BLOCK OR LOWER
+
+        }
+        */
+    }
+}
+
+// workaround for https://youtrack.jetbrains.com/issue/KT-27170
+configurations {
+    compileClasspath
+}
+
