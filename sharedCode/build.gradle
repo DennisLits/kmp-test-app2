@@ -1,17 +1,17 @@
 apply plugin: 'kotlin-multiplatform'
-apply plugin: 'com.squareup.sqldelight'
+//apply plugin: 'com.squareup.sqldelight'
 
-
+/*
 sqldelight {
     WeatherDb {
         packageName = "com.fhyber.multiweather"
     }
 }
-
+*/
 
 kotlin {
     targets {
-        /*
+
         final def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneos") \
                               ? presets.iosArm64 : presets.iosX64
         fromPreset(iOSTarget, 'iOS') {
@@ -19,7 +19,6 @@ kotlin {
                 framework('SharedCode')
             }
         }
-        */
 
 
         fromPreset(presets.jvm, 'android')
@@ -32,25 +31,44 @@ kotlin {
 
 
 
-
         }
 
         androidMain.dependencies {
             implementation 'org.jetbrains.kotlin:kotlin-stdlib'
-
-            implementation "com.squareup.sqldelight:android-driver:1.1.1"
+            //implementation "com.squareup.sqldelight:android-driver:1.1.1"
         }
-        /*
+
         iOSMain.dependencies {
-            // implementation "com.squareup.sqldelight:ios-driver:1.1.1"
+             //implementation "com.squareup.sqldelight:ios-driver:1.1.1"
 
             // You'll also need to have SQLite linked via -lsqlite3 during compilation.
             // THIS IS CODE ADDED INTO THE PRESET BLOCK OR LOWER
 
         }
-        */
+
     }
 }
+
+task packForXCode(type: Sync) {
+    final File frameworkDir = new File(buildDir, "xcode-frameworks")
+    final String mode = project.findProperty("XCODE_CONFIGURATION")?.toUpperCase() ?: 'DEBUG'
+    final def framework = kotlin.targets.iOS.binaries.getFramework("SharedCode", mode)
+
+    inputs.property "mode", mode
+    dependsOn framework.linkTask
+
+    from { framework.outputFile.parentFile }
+    into frameworkDir
+
+    doLast {
+        new File(frameworkDir, 'gradlew').with {
+            text = "#!/bin/bash\nexport 'JAVA_HOME=${System.getProperty("java.home")}'\ncd '${rootProject.rootDir}'\n./gradlew \$@\n"
+            setExecutable(true)
+        }
+    }
+}
+tasks.build.dependsOn packForXCode
+
 
 // workaround for https://youtrack.jetbrains.com/issue/KT-27170
 configurations {
