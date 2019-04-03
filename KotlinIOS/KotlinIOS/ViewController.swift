@@ -83,7 +83,15 @@ extension ViewController: MainView {
     func displayData(data: DisplayData) {
         
         userNameLabel.text = data.name
-        //userPic.kf.setImage(with: URL.init(string: data.avatarUrl))
+        
+        let url = URL(string: data.avatarUrl)
+        DispatchQueue.global().async {
+            let data = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
+            DispatchQueue.main.async {
+                self.userPic.image = UIImage(data: data!)
+            }
+        }
+        
         NSLog("avatarURL is -> " + data.avatarUrl)
         reposLabel.text = data.publicRepos
         gistsLabel.text = data.publicGists
