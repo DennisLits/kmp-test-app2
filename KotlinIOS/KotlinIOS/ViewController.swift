@@ -43,7 +43,7 @@ private extension ViewController {
     
     func setupUI() {
         hideUserDetails()
-        hideKeyboardWhenTappedAround()
+        //hideKeyboardWhenTappedAround()
     }
     
     func showUserDetails() {
@@ -66,6 +66,11 @@ extension ViewController: UITextFieldDelegate {
 
 // MARK: Presenter Delegate
 extension ViewController: MainView {
+    func showError(error: String) {
+        NSLog("ERRROR is -> " + error)
+        
+    }
+    
     
     func showLoader() {
         activityIndicator.startAnimating()
@@ -78,7 +83,8 @@ extension ViewController: MainView {
     func displayData(data: DisplayData) {
         
         userNameLabel.text = data.name
-        userPic.kf.setImage(with: URL.init(string: data.avatarUrl))
+        //userPic.kf.setImage(with: URL.init(string: data.avatarUrl))
+        NSLog("avatarURL is -> " + data.avatarUrl)
         reposLabel.text = data.publicRepos
         gistsLabel.text = data.publicGists
         bioLabel.text = data.bio
