@@ -1,2 +1,4 @@
 include ':androidApp'
 include ':sharedCode'
+
+enableFeaturePreview("GRADLE_METADATA")
