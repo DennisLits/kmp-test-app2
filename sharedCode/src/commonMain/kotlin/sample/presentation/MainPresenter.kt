@@ -1,39 +1,65 @@
 package sample.presentation
 
+import com.github.florent37.livedata.KLiveData
 import sample.*
+import sample.api.Error
+import sample.networkModels.CurrentCityWeatherResponse
 import kotlin.coroutines.CoroutineContext
 
-/**
- * Created by @iamBedant on 13/11/18.
- */
 class MainPresenter(private val view: MainView,
                     private val repository: DataRepository,
                     private val uiContext: CoroutineContext = getMainDispetcher()) {
 
-    fun loadData(userName: String) {
-        if (userName.isNullOrEmpty()) {
-            view.showError(USER_NAME_NOT_VALID)
+    val testLiveData : KLiveData<CurrentCityWeatherResponse> = repository.getData()
+
+
+
+    fun loadData(cityID: String) {
+        if (cityID.isNullOrEmpty()) {
+            view.showError("No name todo remove this")
         } else {
             view.showLoader()
+
+
             launchAndCatch(uiContext, view::showError) {
-                repository.getData(userName)
-                showData()
+                repository.refresh(cityID)
+                //showData()
             } finally {
                 view.hideLoader()
             }
         }
     }
 
-    private fun showData() {
-         repository.data?.let {
-           view.displayData(getDisplayData(it))
+    fun modifyDataTest(cityID: String) {
+
+        view.showLoader()
+
+        launchAndCatch(uiContext, view::showError) {
+            repository.refresh(cityID)
+            //showData()
+        } finally {
+            view.hideLoader()
         }
+
     }
 
-    /**
-     * Made this function internal to make it accessible while writing tests.
-     */
 
+
+    /*
+    private fun showData() {
+         repository.data?.let {
+           view.displayData(getFakeDisplayData(it))
+        }
+    }
+    */
+
+
+    // Internal for writing tests.
+    internal fun getFakeDisplayData(response : CurrentCityWeatherResponse) : CurrentCityWeatherResponse {
+        return response
+    }
+
+    /*
     internal fun getDisplayData(allData : AllData) = DisplayData(
         name = allData.name ?: allData.login,
         publicGists = "${allData.public_gists} $PUBLIC_GISTS",
@@ -41,4 +67,5 @@ class MainPresenter(private val view: MainView,
         avatarUrl = allData.avatar_url ?: DEFAULT_AVATAR,
         bio = allData.bio ?: NO_BIO_AVAILABLE
     )
+    */
 }

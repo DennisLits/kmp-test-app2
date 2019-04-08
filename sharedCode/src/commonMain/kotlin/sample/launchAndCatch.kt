@@ -2,11 +2,10 @@ package sample
 
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import sample.api.Error
 import kotlin.coroutines.CoroutineContext
 
-/**
- * Created by @iamBedant on 13/11/18.
- */
+
 fun launchAndCatch(
     context: CoroutineContext,
     onError: (String) -> Unit,
@@ -17,7 +16,7 @@ fun launchAndCatch(
         try {
             function()
         } catch (e: Throwable) {
-            onError(e.message?: GENERIC_ERROR_MESSAGE)
+            onError(e.message?: "there was an error GENERIC REMOVE TODO")
         } finally {
             ret.onFinally?.invoke()
         }

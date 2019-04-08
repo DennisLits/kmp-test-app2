@@ -1,8 +1,11 @@
 package sample.api
 
-/**
- * Created by @iamBedant on 13/11/18.
- */
-class UpdateProblem : Throwable()
-class Unauthorized : Throwable()
-class CannotFavorite : Throwable()
+
+sealed class Error : Throwable() {
+    class Generic : Error()
+    class UpdateProblem : Error()
+    class Unauthorized : Error()
+
+    class Specific() : Error()
+
+}

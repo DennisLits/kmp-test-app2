@@ -1,35 +1,51 @@
 package sample.model
 
+import com.github.florent37.livedata.KLiveData
+import com.github.florent37.livedata.KMutableLiveData
+import kotlinx.coroutines.delay
 import sample.AllData
 import sample.Log
+import sample.api.Error
 import sample.api.NetworkApi
-import sample.api.UpdateProblem
+import sample.networkModels.CurrentCityWeatherResponse
 import sample.presentation.DataRepository
 
-/**
- * Created by @iamBedant on 13/11/18.
- */
+
 class DataRepositoryImpl : DataRepository {
 
+
+    override val data: KMutableLiveData<CurrentCityWeatherResponse> = KMutableLiveData()
     private val api = NetworkApi("https://github.com")
-    override var data: AllData? = null
 
-    override suspend fun getData(username: String) {
+    override fun getData() : KLiveData<CurrentCityWeatherResponse> {
+        //data.value?: refresh(cityID)
+        //refresh(cityID)
+        return data
+    }
 
-        val data = try {
-            api.getAll(username)
+    override suspend fun refresh(cityID: String) {
+        val response = try {
+            api.getCurrentWeather(cityID)
         } catch (cause: Throwable) {
             Log.e(cause)
-
-            throw UpdateProblem()
+            // TODO set error
+            throw Error.UpdateProblem()
         }
 
-        this.data = data
-
+        data.value = response
     }
 
-    override suspend fun update() {
+
+    override suspend fun refreshFakeTestModify(cityID: String) {
+
+        delay(3000)
+        data.value?.name = "NEW COOL NAME YO"
     }
+
+
+
+
+
 
 
 }

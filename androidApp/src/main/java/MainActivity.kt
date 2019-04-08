@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 
 import sample.model.DataRepositoryImpl
+import sample.networkModels.CurrentCityWeatherResponse
 import sample.presentation.MainPresenter
 import sample.presentation.MainView
 import timber.log.Timber
@@ -36,13 +37,15 @@ class MainActivity : AppCompatActivity(), MainView {
         ivAvatar.show()
     }
 
-    override fun displayData(data: DisplayData) {
+    override fun displayData(data: CurrentCityWeatherResponse) {
         with(data) {
             tvName.text = name
+            /*
             Glide.with(this@MainActivity).load(avatarUrl).into(ivAvatar)
             tvRepos.text = publicRepos
             tvGists.text = publicGists
             tvBio.text = bio
+            */
         }
     }
 
@@ -58,7 +61,8 @@ class MainActivity : AppCompatActivity(), MainView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         fabGo.setOnClickListener {
-            presenter.loadData(etUserName.text.toString())
+            //presenter.loadData(etUserName.text.toString())
+            presenter.loadData("2172797")
         }
     }
 }

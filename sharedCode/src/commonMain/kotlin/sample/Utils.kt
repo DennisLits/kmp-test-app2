@@ -2,9 +2,6 @@ package sample
 
 import kotlinx.coroutines.CoroutineDispatcher
 
-/**
- * Created by @iamBedant on 13/11/18.
- */
 
 expect object Log{
     fun d(message: String)

@@ -1,11 +1,10 @@
 package sample.presentation
 import sample.DisplayData
+import sample.networkModels.CurrentCityWeatherResponse
 
-/**
- * Created by @iamBedant on 13/11/18.
- */
+
 interface MainView : BaseView{
-    fun displayData(data: DisplayData)
+    fun displayData(data: CurrentCityWeatherResponse) // for now
     fun showLoader()
     fun hideLoader()
 }

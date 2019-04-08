@@ -6,31 +6,40 @@ import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 import io.ktor.http.ContentType
 import io.ktor.http.URLProtocol
 import io.ktor.http.contentType
 import io.ktor.http.takeFrom
-import sample.AllData
+import sample.networkModels.CurrentCityWeatherResponse
 
-/**
- * Created by @iamBedant on 13/11/18.
- */
+
+const val WEATHER_HOST = "samples.openweathermap.org"
+const val WEATHER_API_KEY = "88feca02d25f9d3fde957167bb2cdbcd"
+
+
 class NetworkApi(private val endPoint: String) {
+
+
+
+    //
 
     private val httpClient = HttpClient {
         install(JsonFeature){
             serializer = KotlinxSerializer().apply {
-                setMapper(AllData::class, AllData.serializer())
+                setMapper(CurrentCityWeatherResponse::class, CurrentCityWeatherResponse.serializer())
             }
         }
         install(ExpectSuccess)
     }
 
-    suspend fun getAll(userId: String): AllData = httpClient.get {
+    suspend fun getCurrentWeather(cityID: String): CurrentCityWeatherResponse = httpClient.get {
         url {
             protocol = URLProtocol.HTTPS
-            host = "api.github.com"
-            encodedPath = "users/$userId"
+            host = WEATHER_HOST
+            encodedPath = "data/2.5/weather"
+            parameter("id", cityID)
+            parameter("appid", WEATHER_API_KEY)
         }
     }
 

@@ -2,9 +2,6 @@ package sample
 
 import kotlinx.serialization.*
 
-/**
- * Created by @iamBedant on 13/11/18.
- */
 
 
 @Serializable

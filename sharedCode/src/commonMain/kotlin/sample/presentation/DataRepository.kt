@@ -1,12 +1,13 @@
 package sample.presentation
 
+import com.github.florent37.livedata.KLiveData
+import com.github.florent37.livedata.KMutableLiveData
 import sample.AllData
+import sample.networkModels.CurrentCityWeatherResponse
 
-/**
- * Created by @iamBedant on 13/11/18.
- */
 interface DataRepository{
-    val data : AllData?
-    suspend fun getData(username:String)
-    suspend fun update()
+    val data : KMutableLiveData<CurrentCityWeatherResponse>
+    fun getData() : KLiveData<CurrentCityWeatherResponse>
+    suspend fun refresh(cityID: String)
+    suspend fun refreshFakeTestModify(cityID: String)
 }

@@ -2,7 +2,15 @@
 
 buildscript {
     ext.kotlin_version = '1.3.21'
+
+    ext.ktor_version = '1.1.3'
+    ext.kotlinx_coroutines_version = '1.1.1'
+    ext.kotlinx_serial_version = '0.10.0'
+
     ext.sqldelight_version = '1.3.21'
+
+    ext.kLiveData_version = '0.0.5'
+
 
     repositories {
         google()
@@ -28,6 +36,7 @@ allprojects {
         jcenter()
         maven { url "https://kotlin.bintray.com/ktor" }
         maven { url "https://kotlin.bintray.com/kotlinx" }
+        maven { url  "https://dl.bintray.com/florent37/maven" }
     }
 }
 

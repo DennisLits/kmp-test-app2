@@ -26,38 +26,46 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
-            implementation "io.ktor:ktor-client:1.1.3"
-            implementation "io.ktor:ktor-client-json:1.1.3"
-            implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
-            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:0.10.0"
+            implementation "io.ktor:ktor-client:$ktor_version"
+            implementation "io.ktor:ktor-client-json:$ktor_version"
+            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
+            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$kotlinx_serial_version"
+
+            //implementation "com.github.florent37:multiplatform-livedata:$kLiveData_version"
 
 
         }
 
         androidMain.dependencies {
             implementation 'org.jetbrains.kotlin:kotlin-stdlib'
-            implementation "io.ktor:ktor-client-core-jvm:1.1.3"
-            implementation "io.ktor:ktor-client-json-jvm:1.1.3"
-            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.10.0"
+            implementation "io.ktor:ktor-client-core-jvm:$ktor_version"
+            implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
+            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serial_version"
 
             //implementation 'com.jakewharton.timber:timber:4.7.1'
 
             implementation "com.squareup.sqldelight:android-driver:1.1.1"
 
+            //implementation "com.github.florent37:multiplatform-livedata-android:0.0.5"
+
+
         }
 
 
         iOSMain.dependencies {
-            implementation "io.ktor:ktor-client-ios:1.1.3"
-            implementation "io.ktor:ktor-client-core-native:1.1.3"
-            implementation "io.ktor:ktor-client-json-native:1.1.3"
-            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.1.1"
-            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:0.10.0"
+            implementation "io.ktor:ktor-client-ios:$ktor_version"
+            implementation "io.ktor:ktor-client-core-native:$ktor_version"
+            implementation "io.ktor:ktor-client-json-native:$ktor_version"
+            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$kotlinx_coroutines_version"
+            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$kotlinx_serial_version"
 
 
             implementation "com.squareup.sqldelight:ios-driver:1.1.1"
             // You'll also need to have SQLite linked via -lsqlite3 during compilation.
             // THIS IS CODE ADDED INTO THE PRESET BLOCK OR LOWER
+
+            //implementation "com.github.florent37:multiplatform-livedata-ios:$kLiveData_version"
+
         }
 
 
@@ -87,7 +95,4 @@ if (org.gradle.internal.os.OperatingSystem.current().isMacOsX()) {
 // workaround for https://youtrack.jetbrains.com/issue/KT-27170
 configurations {
     compileClasspath
-}
-
-dependencies {
 }
