@@ -96,7 +96,7 @@ actual open class KLiveData<T> {
             }
 
 
-            // Added this line because original libary DOES NOT HAVE IT?
+            // Added this line because original library DOES NOT HAVE IT?
             lifecycleObservers[lifecycle] = lifecycleAndObserver
         }
         lifecycleAndObserver.observers.add(block)
