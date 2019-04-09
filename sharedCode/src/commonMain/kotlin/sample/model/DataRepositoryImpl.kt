@@ -41,7 +41,7 @@ class DataRepositoryImpl : DataRepository {
         delay(2000)
 
         val newData = data.value?.copy()
-        newData?.name = "COOL NEW DELAYED PLACE " 
+        newData?.name = "COOL NEW DELAYED PLACE "
 
         data.value = newData
 

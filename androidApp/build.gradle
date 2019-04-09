@@ -74,7 +74,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     //implementation 'androidx.lifecycle:lifecycle-viewmodel:2.0.0'
     //implementation "androidx.lifecycle:lifecycle-livedata:2.0.0"
-    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
+    //implementation "androidx.lifecycle:lifecycle-extensions:2.1.0-alpha04"
 
 
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
@@ -93,7 +93,7 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
     // Structure
-    implementation "com.github.florent37:multiplatform-livedata-android:$kLiveData_version"
+    //implementation "com.github.florent37:multiplatform-livedata-android:$kLiveData_version"
 
     // UI
     implementation 'de.hdodenhof:circleimageview:2.2.0'

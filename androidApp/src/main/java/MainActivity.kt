@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.fhyber.multiweather.R
 import com.github.florent37.livedata.KLifecycle
