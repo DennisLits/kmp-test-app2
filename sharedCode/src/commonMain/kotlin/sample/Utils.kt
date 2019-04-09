@@ -1,6 +1,5 @@
 package sample
 
-import com.github.florent37.livedata.KLiveData
 import kotlinx.coroutines.CoroutineDispatcher
 
 
@@ -15,8 +14,3 @@ expect fun getMainDispetcher(): CoroutineDispatcher
 
 expect fun <T> runTest(block: suspend () -> T)
 
-
-
-fun boo() {
-    val dude : KLiveData<Boolean>
-}

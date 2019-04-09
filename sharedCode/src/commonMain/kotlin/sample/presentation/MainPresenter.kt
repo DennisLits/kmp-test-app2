@@ -22,9 +22,11 @@ class MainPresenter(private val view: MainView,
         } else {
             view.showLoader()
 
+            Log.i("111111")
+
+
             // TODO MOVE THIS SOMEWHERE BETTER
             testLiveData.observe(lifeCycleOwner) {
-
                 Log.i("Kotlin is cool! City name -> " + it.name)
             }
 

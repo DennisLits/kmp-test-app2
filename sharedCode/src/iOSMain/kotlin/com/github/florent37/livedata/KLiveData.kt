@@ -1,5 +1,7 @@
 package com.github.florent37.livedata
 
+import sample.Log
+
 actual open class KLiveData<T> {
 
     private val foreverObservers = mutableListOf<(T) -> Unit>()
@@ -61,8 +63,10 @@ actual open class KLiveData<T> {
     }
 
     internal fun notifyObservers(){
+        //Log.i("cccccccccc\n")
         value?.let { value ->
             foreverObservers.forEach {
+
                 it(value)
             }
             lifecycleObservers.values.forEach {
@@ -70,19 +74,36 @@ actual open class KLiveData<T> {
                     it(value)
                 }
             }
+
+            //Log.i("Observers sizes " + foreverObservers.size + "/" + lifecycleObservers.size + "\n")
+
         }
     }
 
     internal fun addObserver(lifecycle: KLifecycle, block: (T) -> Unit){
+
+
+
         var lifecycleAndObserver = this.lifecycleObservers.get(lifecycle)
+
+
+
         if(lifecycleAndObserver == null){
             lifecycleAndObserver = KLifecycleAndObserver(lifecycle)
 
             lifecycle.addStopObserver {
                 lifecycleObservers.remove(lifecycle)
             }
+
+
+            // Added this line because original libary DOES NOT HAVE IT?
+            lifecycleObservers[lifecycle] = lifecycleAndObserver
         }
         lifecycleAndObserver.observers.add(block)
+
+
+
+        //Log.i("bbbbbbb 1 " + (lifecycleAndObserver == null) + "| SIZE IS NOW " + lifecycleObservers.size + "\n")
 
         value?.let {
             block(it)

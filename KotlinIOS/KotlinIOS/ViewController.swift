@@ -3,7 +3,8 @@ import SharedCode
 
 class ViewController: UIViewController {
     
-
+    var lifecycle = KLifecycle()
+    
     @IBOutlet weak var userNameTextField: UITextField! {
         didSet {
             userNameTextField.delegate = self
@@ -21,20 +22,48 @@ class ViewController: UIViewController {
     lazy var presenter : MainPresenter = {
         MainPresenter(view: self,
                       repository: DataRepositoryImpl(),
-                      uiContext:IosUtilities().getDispetcher()
-        )
+                      uiContext:IosUtilities().getDispetcher(),
+                      lifeCycleOwner: lifecycle        )
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        lifecycle.start()
         setupUI()
+        // The below DOES work if you want to observe and react to life cycles run from kotlin
+        /*
+        presenter.testLiveData.observe(lifecycle: lifecycle) { (value) -> KotlinUnit in
+            
+            if let viewState = value as? CurrentCityWeatherResponse {
+                NSLog("in swift logging name -> " + viewState.name)
+            }
+
+            return KotlinUnit()
+        }
+        */
+        
+        
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        lifecycle.stop()
+    }
+    var firstClick = false
     
     @IBAction func goButtonTapped(_ sender: Any) {
         
-        let userNameText = userNameTextField.text ?? ""
-        hideUserDetails()
-        presenter.loadData(userName: userNameText)
+        //let userNameText = userNameTextField.text ?? ""
+        //hideUserDetails()
+        
+        if(!firstClick) {
+            presenter.loadData(cityID: "2172797")
+            firstClick = true
+        }
+        else {
+                presenter.modifyDataTest(cityID: "")
+        }
+        
     }
 }
 
@@ -66,6 +95,10 @@ extension ViewController: UITextFieldDelegate {
 
 // MARK: Presenter Delegate
 extension ViewController: MainView {
+    func displayData(data: CurrentCityWeatherResponse) {
+        //NSLog("11111 Kotlin city name is -> " + data.name)
+    }
+    
     func showError(error: String) {
         NSLog("ERRROR is -> " + error)
         
@@ -80,6 +113,7 @@ extension ViewController: MainView {
         activityIndicator.stopAnimating()
     }
     
+    /*
     func displayData(data: DisplayData) {
         
         userNameLabel.text = data.name
@@ -99,6 +133,7 @@ extension ViewController: MainView {
         
         showUserDetails()
     }
+    */
     
 }
 

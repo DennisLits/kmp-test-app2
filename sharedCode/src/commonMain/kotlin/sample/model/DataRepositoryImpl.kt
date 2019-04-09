@@ -26,6 +26,7 @@ class DataRepositoryImpl : DataRepository {
     override suspend fun refresh(cityID: String) {
         val response = try {
             api.getCurrentWeather(cityID)
+
         } catch (cause: Throwable) {
             Log.e(cause)
             // TODO set error
@@ -37,13 +38,15 @@ class DataRepositoryImpl : DataRepository {
 
 
     override suspend fun refreshFakeTestModify(cityID: String) {
-        Log.i("Launching fake update job")
-        delay(2000)
+
+        //delay(1000) // DELAY IS BROKEN ON KOTLIN NATIVE ON NON MAIN THREAD?
 
         val newData = data.value?.copy()
         newData?.name = "COOL NEW DELAYED PLACE "
 
+
         data.value = newData
+
 
     }
 
