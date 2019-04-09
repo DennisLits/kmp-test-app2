@@ -37,9 +37,14 @@ class DataRepositoryImpl : DataRepository {
 
 
     override suspend fun refreshFakeTestModify(cityID: String) {
+        Log.i("Launching fake update job")
+        delay(2000)
 
-        delay(3000)
-        data.value?.name = "NEW COOL NAME YO"
+        val newData = data.value?.copy()
+        newData?.name = "COOL NEW DELAYED PLACE " 
+
+        data.value = newData
+
     }
 
 

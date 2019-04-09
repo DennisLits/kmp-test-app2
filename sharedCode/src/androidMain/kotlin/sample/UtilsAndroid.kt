@@ -3,25 +3,23 @@ package sample
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import timber.log.Timber
 
-/**
- * Created by @iamBedant on 13/11/18.
- */
 actual object Log{
     actual fun d(message: String) {
-        Log.d(message)
+        Timber.d(message)
     }
 
     actual fun e(message: String) {
-        Log.e(message)
+        Timber.e(message)
     }
 
     actual fun i(message: String) {
-        Log.i(message)
+        Timber.i(message)
     }
 
     actual fun e(error: Throwable) {
-        Log.e(error)
+        Timber.e(error)
     }
 }
 
@@ -32,3 +30,4 @@ actual fun getMainDispetcher(): CoroutineDispatcher {
 actual fun <T> runTest(block: suspend () -> T) {
     runBlocking { block() }
 }
+

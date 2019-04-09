@@ -5,19 +5,28 @@ import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.fhyber.multiweather.R
+import com.github.florent37.livedata.KLifecycle
+import com.github.florent37.livedata.kLifecycle
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
-
 import sample.model.DataRepositoryImpl
 import sample.networkModels.CurrentCityWeatherResponse
 import sample.presentation.MainPresenter
 import sample.presentation.MainView
+
+
 import timber.log.Timber
 import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity(), MainView {
+
+
 
     override fun showLoader() {
         pb.show()
@@ -55,14 +64,31 @@ class MainActivity : AppCompatActivity(), MainView {
         }
     }
 
-    private val presenter by lazy { MainPresenter(this, DataRepositoryImpl()) }
+    private val presenter by lazy { MainPresenter(this, DataRepositoryImpl(), lifeCycleOwner = this.kLifecycle()) }
+
+
+
+    var isClicked  = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+        //model = ViewModelProviders.of(this).get(TestViewModel::class.java)
+
         fabGo.setOnClickListener {
             //presenter.loadData(etUserName.text.toString())
-            presenter.loadData("2172797")
+
+            if(!isClicked) {
+                presenter.loadData("2172797")
+                isClicked = true
+            }
+            else {
+                presenter.modifyDataTest("")
+
+            }
+
         }
     }
 }

@@ -1,5 +1,6 @@
 package sample.presentation
 
+import com.github.florent37.livedata.KLifecycle
 import com.github.florent37.livedata.KLiveData
 import sample.*
 import sample.api.Error
@@ -8,7 +9,8 @@ import kotlin.coroutines.CoroutineContext
 
 class MainPresenter(private val view: MainView,
                     private val repository: DataRepository,
-                    private val uiContext: CoroutineContext = getMainDispetcher()) {
+                    private val uiContext: CoroutineContext = getMainDispetcher(),
+                    private val lifeCycleOwner: KLifecycle) {
 
     val testLiveData : KLiveData<CurrentCityWeatherResponse> = repository.getData()
 
@@ -20,6 +22,11 @@ class MainPresenter(private val view: MainView,
         } else {
             view.showLoader()
 
+            // TODO MOVE THIS SOMEWHERE BETTER
+            testLiveData.observe(lifeCycleOwner) {
+
+                Log.i("Kotlin is cool! City name -> " + it.name)
+            }
 
             launchAndCatch(uiContext, view::showError) {
                 repository.refresh(cityID)
@@ -35,7 +42,7 @@ class MainPresenter(private val view: MainView,
         view.showLoader()
 
         launchAndCatch(uiContext, view::showError) {
-            repository.refresh(cityID)
+            repository.refreshFakeTestModify(cityID) // TODO change
             //showData()
         } finally {
             view.hideLoader()
