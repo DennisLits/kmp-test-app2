@@ -50,10 +50,9 @@ kotlin {
             binaries {
                 framework('SharedCode')
             }
-            // TODO check to see if this linker works 100% correctly or syntax/location is wrong?
-            // Needed for SQLDelight
-            // This MIGHT not be needed if using the gradle plugin??
+
             /*
+            // This was needed at some point in SQLDelight's older versions but it add the flags itself now through its plugin
             compilations.each {
                 it.extraOpts("-linkerOpts", "-lsqlite3")
             }
