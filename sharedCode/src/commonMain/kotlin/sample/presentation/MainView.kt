@@ -1,11 +1,9 @@
 package sample.presentation
-import com.github.florent37.livedata.KLifecycle
-import sample.DisplayData
-import sample.networkModels.CurrentCityWeatherResponse
+import sample.networkModels.MainDisplayData
 
 
 interface MainView : BaseView {
-    fun displayData(data: CurrentCityWeatherResponse) // for now
+    fun displayData(data: MainDisplayData)
     fun showLoader()
     fun hideLoader()
 }

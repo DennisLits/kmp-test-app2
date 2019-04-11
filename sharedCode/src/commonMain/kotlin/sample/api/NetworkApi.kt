@@ -33,7 +33,7 @@ class NetworkApi(private val endPoint: String) {
         install(ExpectSuccess)
     }
 
-    suspend fun getCurrentWeather(cityID: String): CurrentCityWeatherResponse = httpClient.get {
+    suspend fun getCurrentWeather(cityID: Int): CurrentCityWeatherResponse = httpClient.get {
         url {
             protocol = URLProtocol.HTTPS
             host = WEATHER_HOST

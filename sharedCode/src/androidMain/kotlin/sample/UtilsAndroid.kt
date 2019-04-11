@@ -23,6 +23,8 @@ actual object Log{
     }
 }
 
+actual fun isAndroid(): Boolean = true
+
 actual fun getMainDispetcher(): CoroutineDispatcher {
     return Dispatchers.Main
 }

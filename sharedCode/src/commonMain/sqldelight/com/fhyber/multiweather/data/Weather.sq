@@ -1,0 +1,22 @@
+
+
+
+CREATE TABLE currentWeather (
+  city_id INTEGER AS Int NOT NULL PRIMARY KEY,
+  name TEXT NOT NULL,
+  time INTEGER NOT NULL
+);
+
+
+
+selectCity:
+SELECT *
+FROM currentWeather WHERE city_id = ?;
+
+insertCity:
+INSERT OR REPLACE INTO currentWeather(city_id, name, time)
+VALUES(?,?,?);
+
+insertCityModel:
+INSERT OR REPLACE INTO currentWeather(city_id, name, time)
+VALUES ?;

@@ -12,14 +12,14 @@ import kotlin.coroutines.CoroutineContext
  */
 actual object Log {
     actual fun d(message: String) {
-        print(message)
+        print(message + "\n")
     }
     actual fun e(message: String) {
-        print(message)
+        print(message + "\n")
     }
 
     actual fun i(message: String) {
-        print(message)
+        print(message + "\n")
     }
 
     actual fun e(error: Throwable) {
@@ -42,3 +42,5 @@ actual fun getMainDispetcher(): CoroutineDispatcher {
 actual fun <T> runTest(block: suspend () -> T) {
     runBlocking { block() }
 }
+
+actual fun isAndroid(): Boolean = false

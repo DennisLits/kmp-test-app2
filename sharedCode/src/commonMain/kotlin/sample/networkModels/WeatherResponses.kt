@@ -1,6 +1,27 @@
 package sample.networkModels
 
+import com.fhyber.multiweather.data.CurrentWeather
 import kotlinx.serialization.Serializable
+import sample.displayModel.BaseDisplayData
+
+data class MainDisplayData (
+    val name: String
+)
+
+// Maybe remove, inserting values directly is maybe easier
+fun CurrentCityWeatherResponse.toDBModel() : CurrentWeather {
+    return CurrentWeather.Impl(
+        city_id = this.id,
+        name = this.name,
+        time = 1
+    )
+}
+fun CurrentWeather.toDisplayModel() : MainDisplayData {
+    return MainDisplayData(
+        name = this.name
+    )
+}
+
 
 @Serializable
 data class CurrentCityWeatherResponse(

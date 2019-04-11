@@ -2,33 +2,82 @@ package sample.presentation
 
 import com.github.florent37.livedata.KLifecycle
 import com.github.florent37.livedata.KLiveData
+import com.github.florent37.livedata.KMutableLiveData
+import com.squareup.sqldelight.Query
 import sample.*
 import sample.api.Error
+import sample.db.DBHelper
 import sample.networkModels.CurrentCityWeatherResponse
+import sample.networkModels.MainDisplayData
+import sample.networkModels.toDisplayModel
 import kotlin.coroutines.CoroutineContext
 
 class MainPresenter(private val view: MainView,
                     private val repository: DataRepository,
                     private val uiContext: CoroutineContext = getMainDispetcher(),
-                    private val lifeCycleOwner: KLifecycle) {
+                    private val lifeCycleOwner: KLifecycle) : BasePresenter(lifeCycleOwner) {
 
-    val testLiveData : KLiveData<CurrentCityWeatherResponse> = repository.getData()
+    private val testLiveData : KMutableLiveData<MainDisplayData> = repository.getLData()
+
+    private val cityIDSaved = 2172797
+
+    init {
+
+        testLiveData.observe(lifeCycleOwner) {
+            Log.i("Kotlin is cool! City name -> " + it.name)
+            view.displayData(it)
+        }
+    }
 
 
+    override fun onStart() {
+        super.onStart()
+        listenForDBData(cityIDSaved) // TODO remove id later
+        getDBDataJob()
+    }
 
-    fun loadData(cityID: String) {
+    override fun onStop() {
+        super.onStop()
+        stopListenDBData(cityIDSaved)
+    }
+
+    private fun listenForDBData(cityID: Int) {
+        DBHelper.getCurrentWeatherForCity(cityID).addListener(dbListener)
+    }
+    private fun stopListenDBData(cityID: Int){
+        DBHelper.getCurrentWeatherForCity(cityID).removeListener(dbListener)
+    }
+    private fun getDBDataJob(){
+
+        launchAndCatch(uiContext, view::showError) {
+            val dbWeather = DBHelper.getCurrentWeatherForCity(cityIDSaved).executeAsOne()
+            testLiveData.value = dbWeather.toDisplayModel()
+        } finally {
+
+        }
+
+    }
+
+    private val dbListener = object : Query.Listener{
+        override fun queryResultsChanged() {
+            Log.i("!!DB CHANGED!!")
+            getDBDataJob()
+        }
+    }
+
+
+    fun loadData(cityID: Int) {
+        /*
         if (cityID.isNullOrEmpty()) {
+
             view.showError("No name todo remove this")
         } else {
+              */
             view.showLoader()
 
             Log.i("111111")
 
 
-            // TODO MOVE THIS SOMEWHERE BETTER
-            testLiveData.observe(lifeCycleOwner) {
-                Log.i("Kotlin is cool! City name -> " + it.name)
-            }
 
             launchAndCatch(uiContext, view::showError) {
                 repository.refresh(cityID)
@@ -36,10 +85,10 @@ class MainPresenter(private val view: MainView,
             } finally {
                 view.hideLoader()
             }
-        }
+        //}
     }
 
-    fun modifyDataTest(cityID: String) {
+    fun modifyDataTest(cityID: Int) {
 
         view.showLoader()
 
@@ -53,14 +102,6 @@ class MainPresenter(private val view: MainView,
     }
 
 
-
-    /*
-    private fun showData() {
-         repository.data?.let {
-           view.displayData(getFakeDisplayData(it))
-        }
-    }
-    */
 
 
     // Internal for writing tests.
