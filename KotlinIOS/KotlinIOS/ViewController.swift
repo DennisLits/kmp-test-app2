@@ -26,9 +26,19 @@ class ViewController: UIViewController {
                       lifeCycleOwner: lifecycle        )
     }()
     
+    static var first = false
+    var kmpApp : KApplication = KApplication()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        lifecycle.start()
+        
+        if(!ViewController.first) {
+            let driver = UtilsIosKt.doInitWeatherDBDriver()
+            kmpApp.doInitDatabase(driver: driver)
+            ViewController.first = true;
+        }
+        
+        presenter.onStart()
         setupUI()
         // The below DOES work if you want to observe and react to life cycles run from kotlin
         /*
@@ -47,7 +57,7 @@ class ViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        lifecycle.stop()
+        presenter.onStop()
     }
     var firstClick = false
     
@@ -57,11 +67,11 @@ class ViewController: UIViewController {
         //hideUserDetails()
         
         if(!firstClick) {
-            presenter.loadData(cityID: "2172797")
+            presenter.loadData(cityID: 2172797)
             firstClick = true
         }
         else {
-                presenter.modifyDataTest(cityID: "")
+            presenter.modifyDataForT()
         }
         
     }
@@ -95,13 +105,15 @@ extension ViewController: UITextFieldDelegate {
 
 // MARK: Presenter Delegate
 extension ViewController: MainView {
-    func displayData(data: CurrentCityWeatherResponse) {
-        //NSLog("11111 Kotlin city name is -> " + data.name)
+    func displayData(data: MainDisplayData) {
+        
+        NSLog("WE ARE NOW DISPLAYING REAL DATA -> " + data.name)
     }
     
+
     func showError(error: String) {
         NSLog("ERRROR is -> " + error)
-        
+    
     }
     
     

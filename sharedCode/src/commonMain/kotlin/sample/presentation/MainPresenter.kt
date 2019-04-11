@@ -23,10 +23,12 @@ class MainPresenter(private val view: MainView,
 
     init {
 
+
         testLiveData.observe(lifeCycleOwner) {
             Log.i("Kotlin is cool! City name -> " + it.name)
             view.displayData(it)
         }
+
     }
 
 
@@ -42,16 +44,17 @@ class MainPresenter(private val view: MainView,
     }
 
     private fun listenForDBData(cityID: Int) {
-        DBHelper.getCurrentWeatherForCity(cityID).addListener(dbListener)
+        //DBHelper.getCurrentWeatherForCity(cityID).addListener(dbListener)
     }
     private fun stopListenDBData(cityID: Int){
-        DBHelper.getCurrentWeatherForCity(cityID).removeListener(dbListener)
+        //DBHelper.getCurrentWeatherForCity(cityID).removeListener(dbListener)
     }
     private fun getDBDataJob(){
 
         launchAndCatch(uiContext, view::showError) {
             val dbWeather = DBHelper.getCurrentWeatherForCity(cityIDSaved).executeAsOne()
-            testLiveData.value = dbWeather.toDisplayModel()
+            //testLiveData.value = dbWeather.toDisplayModel()
+            view.displayData(dbWeather.toDisplayModel())
         } finally {
 
         }
@@ -75,26 +78,26 @@ class MainPresenter(private val view: MainView,
               */
             view.showLoader()
 
-            Log.i("111111")
+            Log.i("111111 launching network job")
 
 
 
             launchAndCatch(uiContext, view::showError) {
                 repository.refresh(cityID)
-                //showData()
+                //view.displayData(displayData)
             } finally {
                 view.hideLoader()
             }
         //}
     }
 
-    fun modifyDataTest(cityID: Int) {
+    fun modifyDataForT() {
 
         view.showLoader()
 
         launchAndCatch(uiContext, view::showError) {
-            repository.refreshFakeTestModify(cityID) // TODO change
-            //showData()
+            repository.refreshFakeTestModify(cityIDSaved) // TODO change
+            //view.displayData(displayData)
         } finally {
             view.hideLoader()
         }

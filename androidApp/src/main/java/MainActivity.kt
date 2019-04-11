@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity(), MainView {
                 isClicked = true
             }
             else {
-                presenter.modifyDataTest(2172797)
+                presenter.modifyDataForT()
 
             }
 

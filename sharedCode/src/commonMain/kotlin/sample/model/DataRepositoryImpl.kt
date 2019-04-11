@@ -11,6 +11,8 @@ import sample.db.DBHelper
 import sample.networkModels.CurrentCityWeatherResponse
 
 import sample.networkModels.MainDisplayData
+import sample.networkModels.toDBModel
+import sample.networkModels.toDisplayModel
 import sample.presentation.DataRepository
 
 
@@ -38,15 +40,16 @@ class DataRepositoryImpl : DataRepository {
 
 
 
+        // Uncomment to actually write to DB
 
         DBHelper.saveCurrentWeatherForCity(response)
 
+        val disData = response.toDBModel().toDisplayModel()
 
 
-        //val DBData = MainDisplayData.toDB()
+        // uncomont if using livedatas
+        data.value = disData
 
-        // TODO uncomont
-        //data.value = response
     }
 
 
@@ -54,7 +57,9 @@ class DataRepositoryImpl : DataRepository {
 
         //delay(1000) // DELAY IS BROKEN ON KOTLIN NATIVE ON NON MAIN THREAD?
 
-        DBHelper.saveCurrentWeatherForCityTest(cityID = cityID, name = "Fake Refresh City!")
+        val disData = MainDisplayData(name = "Fake Refresh City!")
+        DBHelper.saveCurrentWeatherForCityTest(cityID = cityID, name = disData.name)
+        data.value = disData
 
 
         /*

@@ -1,5 +1,8 @@
 package sample
 
+import com.fhyber.multiweather.WeatherDb
+import com.squareup.sqldelight.db.SqlDriver
+import com.squareup.sqldelight.drivers.ios.NativeSqliteDriver
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.runBlocking
@@ -44,3 +47,7 @@ actual fun <T> runTest(block: suspend () -> T) {
 }
 
 actual fun isAndroid(): Boolean = false
+
+fun initWeatherDBDriver() : SqlDriver {
+    return NativeSqliteDriver(WeatherDb.Schema, "test.db")
+}
