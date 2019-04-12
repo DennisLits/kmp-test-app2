@@ -1,11 +1,9 @@
 package sample.presentation
 
 import com.github.florent37.livedata.KLifecycle
-import com.github.florent37.livedata.KLiveData
 import com.github.florent37.livedata.KMutableLiveData
 import com.squareup.sqldelight.Query
 import sample.*
-import sample.api.Error
 import sample.db.DBHelper
 import sample.networkModels.CurrentCityWeatherResponse
 import sample.networkModels.MainDisplayData
@@ -14,7 +12,7 @@ import kotlin.coroutines.CoroutineContext
 
 class MainPresenter(private val view: MainView,
                     private val repository: DataRepository,
-                    private val uiContext: CoroutineContext = getMainDispetcher(),
+                    private val uiContext: CoroutineContext = getMainDispatcher(),
                     private val lifeCycleOwner: KLifecycle) : BasePresenter(lifeCycleOwner) {
 
     private val testLiveData : KMutableLiveData<MainDisplayData> = repository.getLData()

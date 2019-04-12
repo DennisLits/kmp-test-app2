@@ -10,9 +10,6 @@ import platform.Foundation.NSRunLoop
 import platform.Foundation.performBlock
 import kotlin.coroutines.CoroutineContext
 
-/**
- * Created by @iamBedant on 13/11/18.
- */
 actual object Log {
     actual fun d(message: String) {
         print(message + "\n")
@@ -38,7 +35,7 @@ object MainLoopDispatcher: CoroutineDispatcher() {
     }
 }
 
-actual fun getMainDispetcher(): CoroutineDispatcher {
+actual fun getMainDispatcher(): CoroutineDispatcher {
     return MainLoopDispatcher
 }
 

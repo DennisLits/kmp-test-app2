@@ -7,5 +7,5 @@ class IosUtilities {
      * A hack to provide dispetcher to iOS
      */
 
-    fun getDispetcher() = getMainDispetcher()
+    fun getDispetcher() = getMainDispatcher()
 }

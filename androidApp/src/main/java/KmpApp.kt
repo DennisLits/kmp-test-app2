@@ -12,10 +12,6 @@ import timber.log.Timber.DebugTree
 
 
 
-/**
- * Created by @iamBedant on 13/11/18.
- */
-
 class KmpApp : Application() {
 
     private val app = KApplication()
