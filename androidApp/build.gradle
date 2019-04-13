@@ -49,6 +49,9 @@ android {
 
         maven { url  "https://dl.bintray.com/florent37/maven" }
     }
+    androidExtensions {
+        experimental = true
+    }
 
 }
 
