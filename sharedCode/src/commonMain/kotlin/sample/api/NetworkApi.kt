@@ -11,6 +11,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.URLProtocol
 import io.ktor.http.contentType
 import io.ktor.http.takeFrom
+import kotlinx.serialization.json.Json
 import sample.networkModels.CurrentCityWeatherResponse
 
 
@@ -22,18 +23,21 @@ class NetworkApi(private val endPoint: String) {
 
 
 
-    //
 
+    // Json.nonstrict is needed because API can change and it'll crash if a new key that's unknown is added
+    // Add more setMapper  to the method as needed
     private val httpClient = HttpClient {
         install(JsonFeature){
-            serializer = KotlinxSerializer().apply {
-                setMapper(CurrentCityWeatherResponse::class, CurrentCityWeatherResponse.serializer())
+            serializer = KotlinxSerializer(Json.nonstrict).apply {
+                setMapper(CurrentCityWeatherResponse::class, CurrentCityWeatherResponse.serializer()) // Add more of these for each response type
             }
         }
         install(ExpectSuccess)
     }
 
+    // API methods
     suspend fun getCurrentWeather(cityID: Int): CurrentCityWeatherResponse = httpClient.get {
+
         url {
             protocol = URLProtocol.HTTPS
             host = WEATHER_HOST
@@ -41,14 +45,15 @@ class NetworkApi(private val endPoint: String) {
             parameter("id", cityID)
             parameter("appid", WEATHER_API_KEY)
         }
+
     }
 
 
+
+    // Non API methods
     private fun HttpRequestBuilder.json() {
         contentType(ContentType.Application.Json)
     }
-
-
     private fun HttpRequestBuilder.apiUrl(path: String) {
         url {
             takeFrom(endPoint)

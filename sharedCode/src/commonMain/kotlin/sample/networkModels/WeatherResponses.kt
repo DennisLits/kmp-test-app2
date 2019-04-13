@@ -22,7 +22,6 @@ fun CurrentWeather.toDisplayModel() : MainDisplayData {
     )
 }
 
-
 @Serializable
 data class CurrentCityWeatherResponse(
     val base: String,

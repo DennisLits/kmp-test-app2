@@ -5,7 +5,9 @@ import com.squareup.sqldelight.db.SqlDriver
 
 lateinit var database : WeatherDb
 
+// Used to init App Wide things
 class KApplication {
+
 
 
     fun initDatabase(driver : SqlDriver) {

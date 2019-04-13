@@ -7,6 +7,7 @@ import sample.KApplication
 import sample.Log
 import sample.api.Error
 import sample.api.NetworkApi
+import sample.api.WEATHER_HOST
 import sample.db.DBHelper
 import sample.networkModels.CurrentCityWeatherResponse
 
@@ -20,7 +21,7 @@ class DataRepositoryImpl : DataRepository {
 
 
     override val data: KMutableLiveData<MainDisplayData> = KMutableLiveData()
-    private val api = NetworkApi("https://github.com")
+    private val api = NetworkApi(WEATHER_HOST)
 
     override fun getLData() : KMutableLiveData<MainDisplayData> {
         //data.value?: refresh(cityID)
@@ -47,7 +48,7 @@ class DataRepositoryImpl : DataRepository {
         val disData = response.toDBModel().toDisplayModel()
 
 
-        // uncomont if using livedatas
+        // uncomment if using livedatas
         data.value = disData
 
     }
