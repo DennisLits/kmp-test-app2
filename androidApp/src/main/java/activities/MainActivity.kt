@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.fhyber.multiweather.R
 import kotlinx.android.synthetic.main.activity_main.*
+import sample.Log
 import sample.activities.BaseActivity
 import sample.screens.BaseScreen
 import sample.screens.WeatherSearchScreen
@@ -13,7 +14,7 @@ import sample.screens.WeatherSearchScreen
 class MainActivity : BaseActivity() {
 
     override val rootView: ViewGroup
-        get() = root // The synthetic view
+        get() = root // The synthetic view, maybe rename to avoid confusion
 
 
     lateinit var currentScreen : BaseScreen
@@ -27,9 +28,10 @@ class MainActivity : BaseActivity() {
         currentScreen = WeatherSearchScreen(this)
         root.addView(currentScreen.view)
 
-
-
     }
+
+
+
 
     override fun onStart() {
         super.onStart()

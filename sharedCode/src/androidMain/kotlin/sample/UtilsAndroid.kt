@@ -33,3 +33,10 @@ actual fun <T> runTest(block: suspend () -> T) {
     runBlocking { block() }
 }
 
+const val STRING_TYPE_RES = "string"
+const val PACKAGE_NAME = "com.fhyber.multiweather" // KEEP UPDATED
+actual fun getLString(stringKey: String): String {
+    return CommonApplication.instance.getString(
+        CommonApplication.instance.resources.getIdentifier(stringKey, STRING_TYPE_RES, PACKAGE_NAME)
+    )
+}

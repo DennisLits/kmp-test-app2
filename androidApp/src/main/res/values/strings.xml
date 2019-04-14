@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">android-app</string>
+    <string name="test_string_long">This is a few words 123!</string>
 </resources>

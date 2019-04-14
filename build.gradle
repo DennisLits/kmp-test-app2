@@ -11,6 +11,8 @@ buildscript {
 
     ext.kLiveData_version = '0.0.5'
 
+    ext.klock_version = "1.3.1"
+
 
     repositories {
         //maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' } // For kotlin early access if needed
@@ -38,7 +40,7 @@ allprojects {
         jcenter()
         maven { url "https://kotlin.bintray.com/ktor" }
         maven { url "https://kotlin.bintray.com/kotlinx" }
-
+        maven { url "https://dl.bintray.com/soywiz/soywiz" }
     }
 }
 

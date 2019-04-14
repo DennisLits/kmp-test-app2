@@ -29,6 +29,26 @@ class DataRepositoryImpl : DataRepository {
         return data
     }
 
+
+
+    override suspend fun searchCity(citySearchText: String) {
+        val response = try {
+            api.getCurrentWeather(citySearchText)
+
+        } catch (cause: Throwable) {
+            Log.e(cause)
+            // TODO set error
+            throw Error.UpdateProblem()
+        }
+
+
+        DBHelper.saveCurrentWeatherForCity(response)
+        val disData = response.toDBModel().toDisplayModel()
+
+
+        data.value = disData
+    }
+
     override suspend fun refresh(cityID: Int) {
         val response = try {
             api.getCurrentWeather(cityID)
@@ -40,17 +60,11 @@ class DataRepositoryImpl : DataRepository {
         }
 
 
-
-        // Uncomment to actually write to DB
-
         DBHelper.saveCurrentWeatherForCity(response)
-
         val disData = response.toDBModel().toDisplayModel()
 
 
-        // uncomment if using livedatas
         data.value = disData
-
     }
 
 

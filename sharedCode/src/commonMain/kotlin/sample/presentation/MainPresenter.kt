@@ -1,10 +1,12 @@
 package sample.presentation
 
 import com.github.florent37.livedata.KLifecycle
-import com.github.florent37.livedata.KMutableLiveData
+import com.github.florent37.livedata.KLiveData
 import com.squareup.sqldelight.Query
-import sample.*
+import sample.Log
 import sample.db.DBHelper
+import sample.getMainDispatcher
+import sample.launchAndCatch
 import sample.networkModels.CurrentCityWeatherResponse
 import sample.networkModels.MainDisplayData
 import sample.networkModels.toDisplayModel
@@ -15,14 +17,13 @@ class MainPresenter(private val view: MainView,
                     private val uiContext: CoroutineContext = getMainDispatcher(),
                     private val lifeCycleOwner: KLifecycle) : BasePresenter(lifeCycleOwner) {
 
-    private val testLiveData : KMutableLiveData<MainDisplayData> = repository.getLData()
+    private val currentWeatherLiveData : KLiveData<MainDisplayData> = repository.getLData()
 
     private val cityIDSaved = 2172797
 
     init {
 
-
-        testLiveData.observe(lifeCycleOwner) {
+        currentWeatherLiveData.observe(lifeCycleOwner) {
             Log.i("Kotlin is cool! City name -> " + it.name)
             view.displayData(it)
         }
@@ -32,21 +33,23 @@ class MainPresenter(private val view: MainView,
 
     override fun onStart() {
         super.onStart()
-        listenForDBData(cityIDSaved) // TODO remove id later
+        //listenForDBData(cityIDSaved) // TODO remove id later
         getDBDataJob()
     }
 
     override fun onStop() {
         super.onStop()
-        stopListenDBData(cityIDSaved)
+        //stopListenDBData(cityIDSaved)
     }
 
+    /*
     private fun listenForDBData(cityID: Int) {
-        //DBHelper.getCurrentWeatherForCity(cityID).addListener(dbListener)
+        DBHelper.getCurrentWeatherForCity(cityID).addListener(dbListener)
     }
     private fun stopListenDBData(cityID: Int){
-        //DBHelper.getCurrentWeatherForCity(cityID).removeListener(dbListener)
+        DBHelper.getCurrentWeatherForCity(cityID).removeListener(dbListener)
     }
+    */
     private fun getDBDataJob(){
 
         launchAndCatch(uiContext, view::showError) {
@@ -59,13 +62,34 @@ class MainPresenter(private val view: MainView,
 
     }
 
+    /*
     private val dbListener = object : Query.Listener{
         override fun queryResultsChanged() {
             Log.i("!!DB CHANGED!!")
             getDBDataJob()
         }
     }
+    */
 
+    fun loadData(searchString: String) {
+
+
+        if(searchString.isNullOrEmpty()) {
+            view.showError("error empty")
+            return
+        }
+
+
+        view.showLoader()
+        Log.i("111111 launching network job")
+        launchAndCatch(uiContext, view::showError) {
+            repository.searchCity(searchString)
+        } finally {
+            view.hideLoader()
+        }
+
+
+    }
 
     fun loadData(cityID: Int) {
         /*

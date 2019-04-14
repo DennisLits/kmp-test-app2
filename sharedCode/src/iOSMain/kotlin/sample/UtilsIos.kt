@@ -48,3 +48,8 @@ actual fun isAndroid(): Boolean = false
 fun initWeatherDBDriver() : SqlDriver {
     return NativeSqliteDriver(WeatherDb.Schema, "test.db")
 }
+
+actual fun getLString(stringKey: String): String {
+    // TODO implement real lookup
+    return stringKey
+}

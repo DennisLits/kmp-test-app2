@@ -19,7 +19,7 @@ class WeatherSearchScreen(parentAct : BaseActivity) : BaseScreen(parentAct = par
 
 
     override val presenter by lazy { MainPresenter(this, DataRepositoryImpl(), lifeCycleOwner = getAct().kLifecycle()) }
-    var isClicked  = false
+
 
     init {
         // Always should be first line of init
@@ -27,15 +27,11 @@ class WeatherSearchScreen(parentAct : BaseActivity) : BaseScreen(parentAct = par
 
 
         fabGo.setOnClickListener {
-            //presenter.loadData(etUserName.text.toString())
-            if(!isClicked) {
-                presenter.loadData(2172797)
-                isClicked = true
-            }
-            else {
-                presenter.modifyDataForT()
 
-            }
+            val searchString = etUserName.text.toString()
+            presenter.loadData(searchString)
+
+
 
         }
     }

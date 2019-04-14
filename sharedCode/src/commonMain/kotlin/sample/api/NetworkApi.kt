@@ -13,19 +13,19 @@ import io.ktor.http.contentType
 import io.ktor.http.takeFrom
 import kotlinx.serialization.json.Json
 import sample.networkModels.CurrentCityWeatherResponse
+import kotlin.native.concurrent.ThreadLocal
 
 
-const val WEATHER_HOST = "samples.openweathermap.org"
+const val WEATHER_HOST = "api.openweathermap.org"
 const val WEATHER_API_KEY = "88feca02d25f9d3fde957167bb2cdbcd"
 
-
+@ThreadLocal
 class NetworkApi(private val endPoint: String) {
-
-
 
 
     // Json.nonstrict is needed because API can change and it'll crash if a new key that's unknown is added
     // Add more setMapper  to the method as needed
+    @ThreadLocal
     private val httpClient = HttpClient {
         install(JsonFeature){
             serializer = KotlinxSerializer(Json.nonstrict).apply {
@@ -36,6 +36,18 @@ class NetworkApi(private val endPoint: String) {
     }
 
     // API methods
+    // The error for this method returns {"cod":"404","message":"city not found"}
+    suspend fun getCurrentWeather(citySearchText: String): CurrentCityWeatherResponse = httpClient.get {
+
+        url {
+            protocol = URLProtocol.HTTPS
+            host = WEATHER_HOST
+            encodedPath = "data/2.5/weather"
+            parameter("q", citySearchText)
+            parameter("appid", WEATHER_API_KEY)
+        }
+
+    }
     suspend fun getCurrentWeather(cityID: Int): CurrentCityWeatherResponse = httpClient.get {
 
         url {

@@ -8,6 +8,7 @@ import sample.networkModels.MainDisplayData
 interface DataRepository{
     val data : KMutableLiveData<MainDisplayData>
     fun getLData() : KMutableLiveData<MainDisplayData>
+    suspend fun searchCity(citySearchText: String)
     suspend fun refresh(cityID: Int)
     suspend fun refreshFakeTestModify(cityID: Int)
 }
