@@ -1,6 +1,7 @@
 package sample.db
 
 import com.fhyber.multiweather.data.CurrentWeather
+
 import com.squareup.sqldelight.Query
 import sample.KApplication
 import sample.networkModels.CurrentCityWeatherResponse
@@ -13,6 +14,7 @@ class DBHelper{
     companion object {
 
         fun saveCurrentWeatherForCity(response: CurrentCityWeatherResponse) {
+
             KApplication.database.weatherQueries.insertCity(
                 city_id = response.id,
                 name = response.name + " FROM DB NAME 1",
