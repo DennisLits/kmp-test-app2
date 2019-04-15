@@ -2,12 +2,14 @@ package sample.model
 
 import com.github.florent37.livedata.KLiveData
 import com.github.florent37.livedata.KMutableLiveData
+import com.russhwolf.settings.set
 import com.squareup.sqldelight.Query
 import sample.KApplication
 import sample.Log
 import sample.api.Error
 import sample.api.NetworkApi
 import sample.api.WEATHER_HOST
+import sample.constants.SettingsKeys
 import sample.db.DBHelper
 import sample.networkModels.CurrentCityWeatherResponse
 
@@ -42,6 +44,10 @@ class DataRepositoryImpl : DataRepository {
         }
 
 
+
+        KApplication.settings[SettingsKeys.LAST_SEARCH] = response.id
+
+        // Maybe save the DB model directly
         DBHelper.saveCurrentWeatherForCity(response)
         val disData = response.toDBModel().toDisplayModel()
 

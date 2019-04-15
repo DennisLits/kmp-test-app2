@@ -2,6 +2,8 @@ package sample
 
 import android.app.Application
 import com.fhyber.multiweather.WeatherDb
+import com.russhwolf.settings.PlatformSettings
+import com.russhwolf.settings.Settings
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 
@@ -19,7 +21,9 @@ open class CommonApplication : Application() {
 
 
         val driver: SqlDriver = AndroidSqliteDriver(WeatherDb.Schema, this, "test.db")
-        app.initDatabase(driver)
+        val settingsFactory : Settings.Factory = PlatformSettings.Factory(this)
+
+        app.init(driver, settingsFactory)
 
     }
 

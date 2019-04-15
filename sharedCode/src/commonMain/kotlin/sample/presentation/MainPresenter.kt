@@ -3,7 +3,9 @@ package sample.presentation
 import com.github.florent37.livedata.KLifecycle
 import com.github.florent37.livedata.KLiveData
 import com.squareup.sqldelight.Query
+import sample.KApplication
 import sample.Log
+import sample.constants.SettingsKeys
 import sample.db.DBHelper
 import sample.getMainDispatcher
 import sample.launchAndCatch
@@ -19,7 +21,7 @@ class MainPresenter(private val view: MainView,
 
     private val currentWeatherLiveData : KLiveData<MainDisplayData> = repository.getLData()
 
-    private val cityIDSaved = 2172797
+    private var cityIDSaved : Int? = null
 
     init {
 
@@ -27,6 +29,8 @@ class MainPresenter(private val view: MainView,
             Log.i("Kotlin is cool! City name -> " + it.name)
             view.displayData(it)
         }
+
+        checkForSavedCityID()
 
     }
 
@@ -50,10 +54,22 @@ class MainPresenter(private val view: MainView,
         DBHelper.getCurrentWeatherForCity(cityID).removeListener(dbListener)
     }
     */
+
+    private fun checkForSavedCityID() {
+        val lastSearchedCityID = KApplication.settings.getInt(SettingsKeys.LAST_SEARCH, -1)
+
+        if(lastSearchedCityID != -1) {
+            cityIDSaved = lastSearchedCityID
+        }
+    }
+
     private fun getDBDataJob(){
 
+        if (cityIDSaved == null)
+            return
+
         launchAndCatch(uiContext, view::showError) {
-            val dbWeather = DBHelper.getCurrentWeatherForCity(cityIDSaved).executeAsOne()
+            val dbWeather = DBHelper.getCurrentWeatherForCity(cityIDSaved!!).executeAsOne()
             //testLiveData.value = dbWeather.toDisplayModel()
             view.displayData(dbWeather.toDisplayModel())
         } finally {
@@ -113,6 +129,7 @@ class MainPresenter(private val view: MainView,
         //}
     }
 
+    /*
     fun modifyDataForT() {
 
         view.showLoader()
@@ -125,6 +142,7 @@ class MainPresenter(private val view: MainView,
         }
 
     }
+    */
 
 
 

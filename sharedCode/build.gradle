@@ -35,6 +35,14 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    buildTypes {
+        debug {
+            // MPP libraries don't currently get this resolution automatically
+            // Added so Multiplatform settings 0.2 works with debug  || HACK
+            matchingFallbacks = ['release']
+        }
+    }
+
 
     //publishLibraryVariants("release", "debug")
 
@@ -73,6 +81,8 @@ kotlin {
 
             implementation "com.soywiz:klock-metadata:$klock_version" // there's android/ios versions if needed
 
+            implementation "com.russhwolf:multiplatform-settings:0.2"
+
         }
 
         androidMain.dependencies {
@@ -84,7 +94,7 @@ kotlin {
             implementation 'com.jakewharton.timber:timber:4.7.1'
 
             // Maybe leave implementation in here and android app
-            api "com.squareup.sqldelight:android-driver:1.1.1"
+            api "com.squareup.sqldelight:android-driver:$sqldelight_version"
 
             // Maybe leave implementation in here and android app
             api "androidx.lifecycle:lifecycle-livedata:2.1.0-alpha04"
@@ -99,7 +109,7 @@ kotlin {
             implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$kotlinx_serial_version"
 
 
-            implementation "com.squareup.sqldelight:ios-driver:1.1.1"
+            implementation "com.squareup.sqldelight:ios-driver:$sqldelight_version"
 
 
         }

@@ -13,14 +13,14 @@ class DBHelper{
     companion object {
 
         fun saveCurrentWeatherForCity(response: CurrentCityWeatherResponse) {
-            KApplication.getDB().weatherQueries.insertCity(
+            KApplication.database.weatherQueries.insertCity(
                 city_id = response.id,
                 name = response.name + " FROM DB NAME 1",
                 time = 1
             )
         }
         fun saveCurrentWeatherForCityTest(cityID: Int, name: String) {
-            KApplication.getDB().weatherQueries.insertCity(
+            KApplication.database.weatherQueries.insertCity(
                 city_id = cityID,
                 name = name + " FROM DB NAME 2",
                 time = 1
@@ -28,7 +28,7 @@ class DBHelper{
         }
 
         fun getCurrentWeatherForCity(cityID: Int): Query<CurrentWeather> {
-            return KApplication.getDB().weatherQueries.selectCity(cityID)
+            return KApplication.database.weatherQueries.selectCity(cityID)
         }
 
     }
