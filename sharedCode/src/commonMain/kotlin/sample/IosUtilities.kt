@@ -4,7 +4,7 @@ package sample
 class IosUtilities {
 
     /**
-     * A hack to provide dispetcher to iOS
+     * A hack to provide dispatcher to iOS
      */
 
     fun getDispetcher() = getMainDispatcher()

@@ -26,18 +26,15 @@ class ViewController: UIViewController {
                       lifeCycleOwner: lifecycle        )
     }()
     
-    static var first = false
-    var kmpApp : KApplication = KApplication()
+
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if(!ViewController.first) {
-            let driver = UtilsIosKt.doInitWeatherDBDriver()
-            kmpApp.doInitDatabase(driver: driver)
-            ViewController.first = true;
-        }
-        
+
+
+        // TODO move to viewDidAppear
         presenter.onStart()
         setupUI()
         // The below DOES work if you want to observe and react to life cycles run from kotlin

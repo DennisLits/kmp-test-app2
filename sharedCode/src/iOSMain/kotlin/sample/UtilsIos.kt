@@ -47,14 +47,9 @@ actual fun <T> runTest(block: suspend () -> T) {
 
 actual fun isAndroid(): Boolean = false
 
-fun getWeatherDBDriver() : SqlDriver {
-    return NativeSqliteDriver(WeatherDb.Schema, "test.db")
-}
-fun getSettingsFactory() : Settings.Factory {
-    return PlatformSettings.Factory()
-}
+
 
 actual fun getLString(stringKey: String): String {
-    // TODO implement real lookup
+    // TODO implement real lookup from inside CommonIOSApp class
     return stringKey
 }
