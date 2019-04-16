@@ -44,12 +44,11 @@ class DataRepositoryImpl : DataRepository {
         }
 
 
-
         KApplication.settings[SettingsKeys.LAST_SEARCH] = response.id
 
-        // Maybe save the DB model directly
-        DBHelper.saveCurrentWeatherForCity(response)
-        val disData = response.toDBModel().toDisplayModel()
+        val dbModel = response.toDBModel()
+        DBHelper.saveCurrentWeatherForCity(dbModel)
+        val disData = dbModel.toDisplayModel(true)
 
 
         data.value = disData
@@ -66,31 +65,16 @@ class DataRepositoryImpl : DataRepository {
         }
 
 
-        DBHelper.saveCurrentWeatherForCity(response)
-        val disData = response.toDBModel().toDisplayModel()
+        val dbModel = response.toDBModel()
+        DBHelper.saveCurrentWeatherForCity(dbModel)
+        val disData = dbModel.toDisplayModel(true)
 
 
         data.value = disData
     }
 
 
-    override suspend fun refreshFakeTestModify(cityID: Int) {
 
-        //delay(1000) // DELAY IS BROKEN ON KOTLIN NATIVE ON NON MAIN THREAD?
-
-        val disData = MainDisplayData(name = "Fake Refresh City!")
-        DBHelper.saveCurrentWeatherForCityTest(cityID = cityID, name = disData.name)
-        data.value = disData
-
-
-        /*
-        val newData = data.value?.copy()
-        newData?.name = "COOL NEW DELAYED PLACE "
-        data.value = newData
-        */
-
-
-    }
 
 
 

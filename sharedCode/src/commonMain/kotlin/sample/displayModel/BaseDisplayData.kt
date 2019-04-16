@@ -1,6 +1,6 @@
 package sample.displayModel
 
-open class BaseDisplayData(
-    val fromNetwork : Boolean,
-    val time : Long
-)
+abstract class BaseDisplayData{
+    abstract val fromNetwork : Boolean
+    abstract val time : Long
+}

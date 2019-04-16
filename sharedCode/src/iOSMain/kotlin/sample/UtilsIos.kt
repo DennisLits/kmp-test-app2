@@ -53,3 +53,8 @@ actual fun getLString(stringKey: String): String {
     // TODO implement real lookup from inside CommonIOSApp class
     return stringKey
 }
+
+actual fun getCurrentTimeMillis(): Long {
+    // TODO implement
+    return 0
+}

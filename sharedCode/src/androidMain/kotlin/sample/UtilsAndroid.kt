@@ -40,3 +40,7 @@ actual fun getLString(stringKey: String): String {
         CommonApplication.instance.resources.getIdentifier(stringKey, STRING_TYPE_RES, PACKAGE_NAME)
     )
 }
+
+actual fun getCurrentTimeMillis(): Long {
+    return System.currentTimeMillis()
+}

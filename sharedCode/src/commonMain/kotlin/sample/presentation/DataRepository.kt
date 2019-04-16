@@ -10,5 +10,4 @@ interface DataRepository{
     fun getLData() : KMutableLiveData<MainDisplayData>
     suspend fun searchCity(citySearchText: String)
     suspend fun refresh(cityID: Int)
-    suspend fun refreshFakeTestModify(cityID: Int)
 }

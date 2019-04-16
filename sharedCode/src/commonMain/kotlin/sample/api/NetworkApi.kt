@@ -17,7 +17,11 @@ import kotlin.native.concurrent.ThreadLocal
 
 
 const val WEATHER_HOST = "api.openweathermap.org"
+
+const val METRIC_UNITS = "metric"
 const val WEATHER_API_KEY = "88feca02d25f9d3fde957167bb2cdbcd"
+
+
 
 @ThreadLocal
 class NetworkApi(private val endPoint: String) {
@@ -25,10 +29,11 @@ class NetworkApi(private val endPoint: String) {
 
     // Json.nonstrict is needed because API can change and it'll crash if a new key that's unknown is added
     // Add more setMapper  to the method as needed
+    // Turn on Json.nonstrict for RELEASE builds, strict for debug !!!!!!!!
     @ThreadLocal
     private val httpClient = HttpClient {
         install(JsonFeature){
-            serializer = KotlinxSerializer(Json.nonstrict).apply {
+            serializer = KotlinxSerializer().apply {
                 setMapper(CurrentCityWeatherResponse::class, CurrentCityWeatherResponse.serializer()) // Add more of these for each response type
             }
         }
@@ -45,6 +50,9 @@ class NetworkApi(private val endPoint: String) {
             encodedPath = "data/2.5/weather"
             parameter("q", citySearchText)
             parameter("appid", WEATHER_API_KEY)
+            parameter("units", METRIC_UNITS)
+
+
         }
 
     }
@@ -56,6 +64,7 @@ class NetworkApi(private val endPoint: String) {
             encodedPath = "data/2.5/weather"
             parameter("id", cityID)
             parameter("appid", WEATHER_API_KEY)
+            parameter("units", METRIC_UNITS)
         }
 
     }

@@ -17,3 +17,5 @@ expect fun <T> runTest(block: suspend () -> T)
 expect fun isAndroid(): Boolean
 
 expect fun getLString(stringKey: String) : String
+
+expect fun getCurrentTimeMillis() : Long

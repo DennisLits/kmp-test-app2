@@ -3,22 +3,38 @@ package sample.networkModels
 import com.fhyber.multiweather.data.CurrentWeather
 import kotlinx.serialization.Serializable
 import sample.displayModel.BaseDisplayData
+import sample.getCurrentTimeMillis
 
-data class MainDisplayData (
-    val name: String
+data class MainDisplayData(
+    val fromNetwork : Boolean,
+    val city_id: Int,
+    val name: String,
+    val time: Long,
+    val temp: Double,
+    val humidity: Int,
+    val pressure: Int
 )
 
 // Maybe remove, inserting values directly is maybe easier
 fun CurrentCityWeatherResponse.toDBModel() : CurrentWeather {
     return CurrentWeather.Impl(
-        city_id = this.id,
-        name = this.name,
-        time = 1
+        city_id = id,
+        name = name,
+        time = getCurrentTimeMillis(),
+        temp = main.temp,
+        pressure = main.pressure,
+        humidity = main.humidity
     )
 }
-fun CurrentWeather.toDisplayModel() : MainDisplayData {
+fun CurrentWeather.toDisplayModel(fromNetwork: Boolean) : MainDisplayData {
     return MainDisplayData(
-        name = this.name
+        fromNetwork = fromNetwork,
+        city_id = city_id,
+        name = name,
+        time =  time,
+        temp = temp,
+        pressure = pressure,
+        humidity = humidity
     )
 }
 

@@ -22,6 +22,7 @@ class MainPresenter(private val view: MainView,
     private val currentWeatherLiveData : KLiveData<MainDisplayData> = repository.getLData()
 
     private var cityIDSaved : Int? = null
+    private var shouldCheckNetworkAfterDB = false
 
     init {
 
@@ -60,6 +61,7 @@ class MainPresenter(private val view: MainView,
 
         if(lastSearchedCityID != -1) {
             cityIDSaved = lastSearchedCityID
+            shouldCheckNetworkAfterDB = true
         }
     }
 
@@ -71,7 +73,14 @@ class MainPresenter(private val view: MainView,
         launchAndCatch(uiContext, view::showError) {
             val dbWeather = DBHelper.getCurrentWeatherForCity(cityIDSaved!!).executeAsOne()
             //testLiveData.value = dbWeather.toDisplayModel()
-            view.displayData(dbWeather.toDisplayModel())
+            view.displayData(dbWeather.toDisplayModel(false))
+
+            if (shouldCheckNetworkAfterDB) {
+                shouldCheckNetworkAfterDB = false
+                loadDataSilent(cityIDSaved!!)
+
+            }
+
         } finally {
 
         }
@@ -107,26 +116,17 @@ class MainPresenter(private val view: MainView,
 
     }
 
-    fun loadData(cityID: Int) {
-        /*
-        if (cityID.isNullOrEmpty()) {
+    fun loadDataSilent(cityID: Int) {
 
-            view.showError("No name todo remove this")
-        } else {
-              */
-            view.showLoader()
+        Log.i("111111 launching network job")
 
-            Log.i("111111 launching network job")
+        launchAndCatch(uiContext, view::showError) {
+            repository.refresh(cityID)
+            //view.displayData(displayData)
+        } finally {
+            view.hideLoader()
+        }
 
-
-
-            launchAndCatch(uiContext, view::showError) {
-                repository.refresh(cityID)
-                //view.displayData(displayData)
-            } finally {
-                view.hideLoader()
-            }
-        //}
     }
 
     /*
