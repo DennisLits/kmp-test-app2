@@ -18,7 +18,7 @@ open class CommonApplication : Application() {
         instance = this
 
         // Important for DB/Settings
-        KApplication.init()
+        KApplication.setupApp()
 
         //val settingsFactory : Settings.Factory = PlatformSettings.Factory(this)
 

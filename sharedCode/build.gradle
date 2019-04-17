@@ -81,7 +81,7 @@ kotlin {
 
             //implementation "com.soywiz:klock-metadata:$klock_version"
 
-            // currently broken on iOS as of 0.2 some weird version difference
+            // currently broken on iOS as of 0.2 some weird version difference, right now hard coded london ID in app instead
             //implementation "com.russhwolf:multiplatform-settings:0.2"
 
         }
@@ -94,8 +94,7 @@ kotlin {
 
             implementation 'com.jakewharton.timber:timber:4.7.1'
 
-            // Maybe leave implementation in here and android app
-            api "com.squareup.sqldelight:android-driver:$sqldelight_version"
+            implementation "com.squareup.sqldelight:android-driver:$sqldelight_version"
 
             // Maybe leave implementation in here and android app
             api "androidx.lifecycle:lifecycle-livedata:2.1.0-alpha04"
