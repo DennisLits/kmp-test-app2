@@ -1,5 +1,6 @@
 package sample.presentation
 
+import com.fhyber.multiweather.data.CurrentWeather
 import com.github.florent37.livedata.KLifecycle
 import com.github.florent37.livedata.KLiveData
 import com.squareup.sqldelight.Query
@@ -22,6 +23,7 @@ class MainPresenter(private val view: MainView,
     private val currentWeatherLiveData : KLiveData<MainDisplayData> = repository.getLData()
 
     private var cityIDSaved : Int? = null
+    //private var activeQuery : Query<CurrentWeather>? = null
     private var shouldCheckNetworkAfterDB = false
 
     init {
@@ -29,7 +31,21 @@ class MainPresenter(private val view: MainView,
         currentWeatherLiveData.observe(lifeCycleOwner) {
             Log.i("Kotlin is cool! City name -> " + it.name)
             view.displayData(it)
+            cityIDSaved = it.city_id
+
+            // Listen to NEW city get rid of old city listener
+            /*
+            if (cityIDSaved != null && cityIDSaved != it.city_id) {
+                stopListenDBData()
+                cityIDSaved = it.city_id
+                listenForDBData(cityIDSaved!!)
+            }
+            else if (cityIDSaved == null) {
+                cityIDSaved = it.city_id
+                listenForDBData(cityIDSaved!!)
+            }*/
         }
+
 
         checkForSavedCityID()
 
@@ -38,23 +54,31 @@ class MainPresenter(private val view: MainView,
 
     override fun onStart() {
         super.onStart()
-        //listenForDBData(cityIDSaved) // TODO remove id later
+
+        //if(cityIDSaved != null)
+        //    listenForDBData(cityIDSaved!!) // TODO remove id later
+
         getDBDataJob()
     }
 
     override fun onStop() {
         super.onStop()
-        //stopListenDBData(cityIDSaved)
+
+        //stopListenDBData()
     }
 
     /*
     private fun listenForDBData(cityID: Int) {
-        DBHelper.getCurrentWeatherForCity(cityID).addListener(dbListener)
+        activeQuery = DBHelper.getCurrentWeatherForCity(cityID)
+        activeQuery!!.addListener(dbListener)
     }
-    private fun stopListenDBData(cityID: Int){
-        DBHelper.getCurrentWeatherForCity(cityID).removeListener(dbListener)
+    private fun stopListenDBData(){
+        if(activeQuery != null) {
+            activeQuery!!.removeListener(dbListener)
+        }
     }
     */
+
 
     private fun checkForSavedCityID() {
         val lastSearchedCityID = KApplication.settings.getInt(SettingsKeys.LAST_SEARCH, -1)
@@ -96,10 +120,11 @@ class MainPresenter(private val view: MainView,
     }
     */
 
+
     fun loadData(searchString: String) {
 
 
-        if(searchString.isNullOrEmpty()) {
+        if (searchString.isNullOrEmpty()) {
             view.showError("error empty")
             return
         }
@@ -129,36 +154,8 @@ class MainPresenter(private val view: MainView,
 
     }
 
-    /*
-    fun modifyDataForT() {
-
-        view.showLoader()
-
-        launchAndCatch(uiContext, view::showError) {
-            repository.refreshFakeTestModify(cityIDSaved) // TODO change
-            //view.displayData(displayData)
-        } finally {
-            view.hideLoader()
-        }
-
-    }
-    */
 
 
 
 
-    // Internal for writing tests.
-    internal fun getFakeDisplayData(response : CurrentCityWeatherResponse) : CurrentCityWeatherResponse {
-        return response
-    }
-
-    /*
-    internal fun getDisplayData(allData : AllData) = DisplayData(
-        name = allData.name ?: allData.login,
-        publicGists = "${allData.public_gists} $PUBLIC_GISTS",
-        publicRepos = "${allData.public_repos} $PUBLIC_REPOS",
-        avatarUrl = allData.avatar_url ?: DEFAULT_AVATAR,
-        bio = allData.bio ?: NO_BIO_AVAILABLE
-    )
-    */
 }

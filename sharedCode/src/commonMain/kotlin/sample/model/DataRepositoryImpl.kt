@@ -48,9 +48,8 @@ class DataRepositoryImpl : DataRepository {
 
         val dbModel = response.toDBModel()
         DBHelper.saveCurrentWeatherForCity(dbModel)
+
         val disData = dbModel.toDisplayModel(true)
-
-
         data.value = disData
     }
 
@@ -67,9 +66,8 @@ class DataRepositoryImpl : DataRepository {
 
         val dbModel = response.toDBModel()
         DBHelper.saveCurrentWeatherForCity(dbModel)
+
         val disData = dbModel.toDisplayModel(true)
-
-
         data.value = disData
     }
 
