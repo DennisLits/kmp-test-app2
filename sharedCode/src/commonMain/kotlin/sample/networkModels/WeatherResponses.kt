@@ -45,7 +45,7 @@ data class CurrentCityWeatherResponse(
     val cod: Int,
     val coord: Coord,
     val dt: Int,
-    val id: Int,
+    var id: Int, // Var for testing and until user settings works again
     val main: Main,
     var name: String, // for testing, a var
     val sys: Sys,

@@ -1,5 +1,8 @@
 package sample
 
+import com.fhyber.multiweather.WeatherDb
+import com.squareup.sqldelight.android.AndroidSqliteDriver
+import com.squareup.sqldelight.db.SqlDriver
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -43,4 +46,8 @@ actual fun getLString(stringKey: String): String {
 
 actual fun getCurrentTimeMillis(): Long {
     return System.currentTimeMillis()
+}
+
+actual fun getDatabaseDriver(): SqlDriver {
+    return AndroidSqliteDriver(WeatherDb.Schema, CommonApplication.instance, "test.db")
 }

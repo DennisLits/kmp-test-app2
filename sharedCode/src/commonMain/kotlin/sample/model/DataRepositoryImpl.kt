@@ -2,7 +2,6 @@ package sample.model
 
 import com.github.florent37.livedata.KLiveData
 import com.github.florent37.livedata.KMutableLiveData
-import com.russhwolf.settings.set
 import com.squareup.sqldelight.Query
 import sample.KApplication
 import sample.Log
@@ -43,8 +42,9 @@ class DataRepositoryImpl : DataRepository {
             throw Error.UpdateProblem()
         }
 
-
-        KApplication.settings[SettingsKeys.LAST_SEARCH] = response.id
+        // TODO uncomment when settings work again
+        response.id = 2643743
+        //KApplication.settings[SettingsKeys.LAST_SEARCH] = response.id
 
         val dbModel = response.toDBModel()
         DBHelper.saveCurrentWeatherForCity(dbModel)
@@ -64,6 +64,7 @@ class DataRepositoryImpl : DataRepository {
         }
 
 
+        response.id = 2643743 // TODO uncomment when settings work again
         val dbModel = response.toDBModel()
         DBHelper.saveCurrentWeatherForCity(dbModel)
 

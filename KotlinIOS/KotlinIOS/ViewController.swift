@@ -27,50 +27,43 @@ class ViewController: UIViewController {
     }()
     
 
-
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
-
-        // TODO move to viewDidAppear
-        presenter.onStart()
         setupUI()
-        // The below DOES work if you want to observe and react to life cycles run from kotlin
+        
+        
+        // The below DOES work if you want to observe and react to life cycles run in swift
         /*
         presenter.testLiveData.observe(lifecycle: lifecycle) { (value) -> KotlinUnit in
-            
             if let viewState = value as? CurrentCityWeatherResponse {
                 NSLog("in swift logging name -> " + viewState.name)
             }
-
             return KotlinUnit()
         }
         */
         
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        presenter.onStart()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         presenter.onStop()
     }
-    var firstClick = false
     
     @IBAction func goButtonTapped(_ sender: Any) {
         
-        //let userNameText = userNameTextField.text ?? ""
-        //hideUserDetails()
-        
-        if(!firstClick) {
-            presenter.loadData(cityID: 2172797)
-            firstClick = true
-        }
-        else {
-            presenter.modifyDataForT()
-        }
-        
+        let userNameText = userNameTextField.text ?? ""
+        presenter.loadData(searchString: userNameText)
+      
+       
     }
 }
 

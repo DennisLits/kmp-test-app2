@@ -7,17 +7,22 @@
 //
 
 import UIKit
+import SharedCode
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    // !!IMPORTANT!! maybe move init to application block
-    var kmpApp : CommonIOSApp = CommonIOSApp()
-
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions
+        launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        // !!IMPORTANT!! maybe move init to application block
+        //var kmpApp : CommonIOSApp = CommonIOSApp()
+        let kapp = KApplication()
+        kapp.setupApp()
+        
         // Override point for customization after application launch.
         return true
     }

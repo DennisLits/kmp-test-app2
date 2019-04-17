@@ -81,8 +81,8 @@ kotlin {
 
             //implementation "com.soywiz:klock-metadata:$klock_version"
 
-
-            implementation "com.russhwolf:multiplatform-settings:0.2"
+            // currently broken on iOS as of 0.2 some weird version difference
+            //implementation "com.russhwolf:multiplatform-settings:0.2"
 
         }
 

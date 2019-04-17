@@ -81,7 +81,10 @@ class MainPresenter(private val view: MainView,
 
 
     private fun checkForSavedCityID() {
-        val lastSearchedCityID = KApplication.settings.getInt(SettingsKeys.LAST_SEARCH, -1)
+        // TODO uncommnet when multi platform settings works again for IOS
+        //val lastSearchedCityID = KApplication.settings.getInt(SettingsKeys.LAST_SEARCH, -1)
+        val lastSearchedCityID = 2643743 // london is 2643743
+
 
         if(lastSearchedCityID != -1) {
             cityIDSaved = lastSearchedCityID

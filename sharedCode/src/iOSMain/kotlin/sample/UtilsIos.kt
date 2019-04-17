@@ -1,13 +1,12 @@
 package sample
 
 import com.fhyber.multiweather.WeatherDb
-import com.russhwolf.settings.PlatformSettings
-import com.russhwolf.settings.Settings
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.drivers.ios.NativeSqliteDriver
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.runBlocking
+import platform.Foundation.NSDate
 import platform.Foundation.NSRunLoop
 import platform.Foundation.performBlock
 import kotlin.coroutines.CoroutineContext
@@ -55,6 +54,9 @@ actual fun getLString(stringKey: String): String {
 }
 
 actual fun getCurrentTimeMillis(): Long {
-    // TODO implement
-    return 0
+    return NSDate().timeIntervalSinceReferenceDate.toLong()
+}
+
+actual fun getDatabaseDriver(): SqlDriver {
+    return NativeSqliteDriver(WeatherDb.Schema, "test.db")
 }
