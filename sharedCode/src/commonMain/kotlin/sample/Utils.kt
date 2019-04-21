@@ -1,5 +1,7 @@
 package sample
 
+
+import com.russhwolf.settings.Settings
 import com.squareup.sqldelight.db.SqlDriver
 import kotlinx.coroutines.CoroutineDispatcher
 
@@ -22,3 +24,5 @@ expect fun getLString(stringKey: String) : String
 expect fun getCurrentTimeMillis() : Long
 
 expect fun getDatabaseDriver() : SqlDriver
+
+expect fun getSettingsFactory() : Settings.Factory

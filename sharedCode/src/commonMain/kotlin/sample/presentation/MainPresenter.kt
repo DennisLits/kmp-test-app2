@@ -4,12 +4,9 @@ import com.fhyber.multiweather.data.CurrentWeather
 import com.github.florent37.livedata.KLifecycle
 import com.github.florent37.livedata.KLiveData
 import com.squareup.sqldelight.Query
-import sample.KApplication
-import sample.Log
+import sample.*
 import sample.constants.SettingsKeys
 import sample.db.DBHelper
-import sample.getMainDispatcher
-import sample.launchAndCatch
 import sample.networkModels.CurrentCityWeatherResponse
 import sample.networkModels.MainDisplayData
 import sample.networkModels.toDisplayModel
@@ -81,9 +78,7 @@ class MainPresenter(private val view: MainView,
 
 
     private fun checkForSavedCityID() {
-        // TODO uncommnet when multi platform settings works again for IOS
-        //val lastSearchedCityID = KApplication.settings.getInt(SettingsKeys.LAST_SEARCH, -1)
-        val lastSearchedCityID = 2643743 // london is 2643743
+        val lastSearchedCityID = settings.getInt(SettingsKeys.LAST_SEARCH, -1)
 
 
         if(lastSearchedCityID != -1) {

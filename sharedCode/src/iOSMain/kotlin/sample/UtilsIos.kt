@@ -1,6 +1,8 @@
 package sample
 
 import com.fhyber.multiweather.WeatherDb
+import com.russhwolf.settings.AppleSettings
+import com.russhwolf.settings.Settings
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.drivers.ios.NativeSqliteDriver
 import kotlinx.coroutines.CoroutineDispatcher
@@ -59,4 +61,8 @@ actual fun getCurrentTimeMillis(): Long {
 
 actual fun getDatabaseDriver(): SqlDriver {
     return NativeSqliteDriver(WeatherDb.Schema, "test.db")
+}
+
+actual fun getSettingsFactory(): Settings.Factory {
+    return AppleSettings.Factory()
 }

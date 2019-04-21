@@ -82,7 +82,7 @@ kotlin {
             //implementation "com.soywiz:klock-metadata:$klock_version"
 
             // currently broken on iOS as of 0.2 some weird version difference, right now hard coded london ID in app instead
-            //implementation "com.russhwolf:multiplatform-settings:0.2"
+            implementation "com.russhwolf:multiplatform-settings:0.3"
 
         }
 

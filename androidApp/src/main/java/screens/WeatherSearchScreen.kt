@@ -57,20 +57,12 @@ class WeatherSearchScreen(parentAct : BaseActivity) : BaseScreen(parentAct = par
 
     override fun showLoader() {
         pb.show()
-        tvBio.hide()
         tvName.hide()
-        tvGists.hide()
-        tvRepos.hide()
-        ivAvatar.hide()
     }
 
     override fun hideLoader() {
         pb.hide()
-        tvBio.show()
         tvName.show()
-        tvGists.show()
-        tvRepos.show()
-        ivAvatar.show()
     }
 
 
