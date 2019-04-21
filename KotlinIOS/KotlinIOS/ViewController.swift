@@ -98,6 +98,15 @@ extension ViewController: MainView {
     func displayData(data: MainDisplayData) {
         
         NSLog("WE ARE NOW DISPLAYING REAL DATA -> " + data.name)
+        var displayText = ""
+        if (data.fromNetwork) {
+            displayText = data.name + " from network"
+        }
+        else {
+            displayText = data.name + " from DB"
+        }
+        userNameLabel.text = displayText
+        showUserDetails()
     }
     
 
