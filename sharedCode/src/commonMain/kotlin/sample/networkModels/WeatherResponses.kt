@@ -1,6 +1,8 @@
 package sample.networkModels
 
 import com.fhyber.multiweather.data.CurrentWeather
+import kotlinx.serialization.Optional
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import sample.displayModel.BaseDisplayData
 import sample.getCurrentTimeMillis
@@ -51,8 +53,11 @@ data class CurrentCityWeatherResponse(
     val sys: Sys,
     val visibility: Int,
     val weather: List<Weather>,
-    val wind: Wind
+    val wind: Wind,
+    val rain : Precipitation? = null,
+    val snow : Precipitation? = null
 )
+
 
 @Serializable
 data class Main(
@@ -96,4 +101,12 @@ data class Clouds(
 data class Coord(
     val lat: Double,
     val lon: Double
+)
+
+@Serializable
+data class Precipitation (
+    @SerialName("3h")
+    val threeHours: Int? = null,
+    @SerialName("5h")
+    val fiveHours: Int? = null
 )

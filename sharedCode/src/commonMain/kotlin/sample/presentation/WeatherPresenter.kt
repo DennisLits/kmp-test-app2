@@ -10,12 +10,13 @@ import sample.db.DBHelper
 import sample.networkModels.CurrentCityWeatherResponse
 import sample.networkModels.MainDisplayData
 import sample.networkModels.toDisplayModel
+import sample.utils.SettingsUtils
 import kotlin.coroutines.CoroutineContext
 
-class MainPresenter(private val view: MainView,
-                    private val repository: DataRepository,
-                    private val uiContext: CoroutineContext = getMainDispatcher(),
-                    private val lifeCycleOwner: KLifecycle) : BasePresenter(lifeCycleOwner) {
+class WeatherPresenter(private val view: MainView,
+                       private val repository: DataRepository,
+                       private val uiContext: CoroutineContext = getMainDispatcher(),
+                       private val lifeCycleOwner: KLifecycle) : BasePresenter(lifeCycleOwner) {
 
     private val currentWeatherLiveData : KLiveData<MainDisplayData> = repository.getLData()
 
@@ -78,7 +79,7 @@ class MainPresenter(private val view: MainView,
 
 
     private fun checkForSavedCityID() {
-        val lastSearchedCityID = settings.getInt(SettingsKeys.LAST_SEARCH, -1)
+        val lastSearchedCityID = SettingsUtils.getLastUserSearchedCityID()
 
 
         if(lastSearchedCityID != -1) {
@@ -139,7 +140,7 @@ class MainPresenter(private val view: MainView,
 
     }
 
-    fun loadDataSilent(cityID: Int) {
+    private fun loadDataSilent(cityID: Int) {
 
         Log.i("111111 launching network job")
 

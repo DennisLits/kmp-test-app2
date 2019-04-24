@@ -2,7 +2,6 @@ package sample.screens
 
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.fhyber.multiweather.R
 import com.github.florent37.livedata.kLifecycle
 import kotlinx.android.synthetic.main.weather_search_screen.*
@@ -11,14 +10,15 @@ import sample.activities.BaseActivity
 import sample.hide
 import sample.model.DataRepositoryImpl
 import sample.networkModels.MainDisplayData
-import sample.presentation.MainPresenter
+import sample.presentation.WeatherPresenter
 import sample.presentation.MainView
 import sample.show
 
 class WeatherSearchScreen(parentAct : BaseActivity) : BaseScreen(parentAct = parentAct), MainView {
 
 
-    override val presenter by lazy { MainPresenter(this, DataRepositoryImpl(), lifeCycleOwner = getAct().kLifecycle()) }
+    override val presenter by lazy { WeatherPresenter(this, DataRepositoryImpl(), lifeCycleOwner = getAct().kLifecycle()) }
+
 
 
     init {
@@ -43,7 +43,7 @@ class WeatherSearchScreen(parentAct : BaseActivity) : BaseScreen(parentAct = par
         tvName.visibility = View.VISIBLE
         Log.i("Displaying data of ${data.name}")
         with(data) {
-            tvName.text = name
+            tvName.text = name + (if (fromNetwork) " from network" else " from DB")
             /*
             Glide.with(this@MainActivity).load(avatarUrl).into(ivAvatar)
             tvRepos.text = publicRepos

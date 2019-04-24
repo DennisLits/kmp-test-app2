@@ -18,6 +18,7 @@ import sample.networkModels.toDBModel
 import sample.networkModels.toDisplayModel
 import sample.presentation.DataRepository
 import sample.settings
+import sample.utils.SettingsUtils
 
 
 class DataRepositoryImpl : DataRepository {
@@ -44,7 +45,7 @@ class DataRepositoryImpl : DataRepository {
             throw Error.UpdateProblem()
         }
 
-        settings[SettingsKeys.LAST_SEARCH] = response.id
+        SettingsUtils.setLastUserSearchedCityID(response.id)
 
         val dbModel = response.toDBModel()
         DBHelper.saveCurrentWeatherForCity(dbModel)
@@ -64,7 +65,7 @@ class DataRepositoryImpl : DataRepository {
         }
 
 
-        settings[SettingsKeys.LAST_SEARCH] = response.id
+        SettingsUtils.setLastUserSearchedCityID(response.id)
         val dbModel = response.toDBModel()
         DBHelper.saveCurrentWeatherForCity(dbModel)
 
