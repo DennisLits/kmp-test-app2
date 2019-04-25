@@ -26,7 +26,7 @@ actual open class KLiveData<T> {
         if (realLifecycleOwner == null || realLifecycleOwner !is LifecycleOwner) {
             throw Exception("Please use LifecycleOwner.kLifecycle() to create your lifecycle, or KLiveData.observe(LifecycleOwner, (T) -> Unit) on Android Platform")
         } else {
-            lifecycle.tags.remove(lifeCycleOwnerTag)
+            //lifecycle.tags.remove(lifeCycleOwnerTag) // Not sure why this tag is removed after
             observe(realLifecycleOwner, block)
         }
     }

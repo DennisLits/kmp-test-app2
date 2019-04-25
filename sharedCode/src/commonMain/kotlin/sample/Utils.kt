@@ -5,6 +5,10 @@ import com.russhwolf.settings.Settings
 import com.squareup.sqldelight.db.SqlDriver
 import kotlinx.coroutines.CoroutineDispatcher
 
+// Figure out better way to determine if debug or not
+fun isDebug() : Boolean {
+    return true
+}
 
 expect object Log{
     fun d(message: String)

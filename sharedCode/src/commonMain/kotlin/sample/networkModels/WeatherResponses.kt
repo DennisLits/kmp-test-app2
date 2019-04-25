@@ -1,20 +1,18 @@
 package sample.networkModels
 
 import com.fhyber.multiweather.data.CurrentWeather
-import kotlinx.serialization.Optional
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import sample.displayModel.BaseDisplayData
 import sample.getCurrentTimeMillis
 
-data class MainDisplayData(
+data class CurrentWeatherDisplayData(
     val fromNetwork : Boolean,
     val city_id: Int,
     val name: String,
     val time: Long,
     val temp: Double,
     val humidity: Int,
-    val pressure: Int
+    val pressure: Double
 )
 
 // Maybe remove, inserting values directly is maybe easier
@@ -28,8 +26,8 @@ fun CurrentCityWeatherResponse.toDBModel() : CurrentWeather {
         humidity = main.humidity
     )
 }
-fun CurrentWeather.toDisplayModel(fromNetwork: Boolean) : MainDisplayData {
-    return MainDisplayData(
+fun CurrentWeather.toDisplayModel(fromNetwork: Boolean) : CurrentWeatherDisplayData {
+    return CurrentWeatherDisplayData(
         fromNetwork = fromNetwork,
         city_id = city_id,
         name = name,
@@ -44,14 +42,14 @@ fun CurrentWeather.toDisplayModel(fromNetwork: Boolean) : MainDisplayData {
 data class CurrentCityWeatherResponse(
     val base: String,
     val clouds: Clouds,
-    val cod: Int,
-    val coord: Coord,
+    val cod: Int? = null,
+    val coord: Coord? = null,
     val dt: Int,
-    var id: Int, // Var for testing and until user settings works again
+    var id: Int, // Var for testing
     val main: Main,
-    var name: String, // for testing, a var
-    val sys: Sys,
-    val visibility: Int,
+    val name: String,
+    val sys: Sys? = null,
+    val visibility: Int? = null,
     val weather: List<Weather>,
     val wind: Wind,
     val rain : Precipitation? = null,
@@ -62,7 +60,7 @@ data class CurrentCityWeatherResponse(
 @Serializable
 data class Main(
     val humidity: Int,
-    val pressure: Int,
+    val pressure: Double,
     val temp: Double,
     val temp_max: Double,
     val temp_min: Double
@@ -84,7 +82,7 @@ data class Weather(
 
 @Serializable
 data class Sys(
-    val country: String,
+    val country: String? = null,
     val id: Int,
     val message: Double,
     val sunrise: Int,
@@ -106,7 +104,7 @@ data class Coord(
 @Serializable
 data class Precipitation (
     @SerialName("3h")
-    val threeHours: Int? = null,
+    val threeHours: Double? = null,
     @SerialName("5h")
-    val fiveHours: Int? = null
+    val fiveHours: Double? = null
 )

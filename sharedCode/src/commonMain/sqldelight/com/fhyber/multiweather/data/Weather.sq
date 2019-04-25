@@ -7,7 +7,7 @@ CREATE TABLE currentWeather (
     time INTEGER NOT NULL,
     temp REAL NOT NULL,
     humidity INTEGER AS Int NOT NULL,
-    pressure INTEGER AS Int NOT NULL
+    pressure REAL NOT NULL
 );
 
 

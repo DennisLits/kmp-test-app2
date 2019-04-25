@@ -1,9 +1,11 @@
 package sample.presentation
-import sample.networkModels.MainDisplayData
+import sample.networkModels.CurrentWeatherDisplayData
+import sample.networkModels.ForecastDisplayData
 
 
 interface MainView : BaseView {
-    fun displayData(data: MainDisplayData)
+    fun displayCurrentData(data: CurrentWeatherDisplayData)
+    fun displayForecastData(data: ForecastDisplayData)
     fun showLoader()
     fun hideLoader()
 }

@@ -9,7 +9,8 @@ import sample.Log
 import sample.activities.BaseActivity
 import sample.hide
 import sample.model.DataRepositoryImpl
-import sample.networkModels.MainDisplayData
+import sample.networkModels.CurrentWeatherDisplayData
+import sample.networkModels.ForecastDisplayData
 import sample.presentation.WeatherPresenter
 import sample.presentation.MainView
 import sample.show
@@ -36,9 +37,7 @@ class WeatherSearchScreen(parentAct : BaseActivity) : BaseScreen(parentAct = par
         }
     }
 
-    override fun displayData(data: MainDisplayData) {
-
-
+    override fun displayCurrentData(data: CurrentWeatherDisplayData) {
 
         tvName.visibility = View.VISIBLE
         Log.i("Displaying data of ${data.name}")
@@ -52,6 +51,10 @@ class WeatherSearchScreen(parentAct : BaseActivity) : BaseScreen(parentAct = par
             */
         }
 
+    }
+
+    override fun displayForecastData(data: ForecastDisplayData) {
+        Log.i("Displaying FORECAST data")
     }
 
 

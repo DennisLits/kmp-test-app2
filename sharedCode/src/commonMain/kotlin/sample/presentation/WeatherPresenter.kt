@@ -1,14 +1,11 @@
 package sample.presentation
 
-import com.fhyber.multiweather.data.CurrentWeather
 import com.github.florent37.livedata.KLifecycle
 import com.github.florent37.livedata.KLiveData
-import com.squareup.sqldelight.Query
 import sample.*
-import sample.constants.SettingsKeys
 import sample.db.DBHelper
-import sample.networkModels.CurrentCityWeatherResponse
-import sample.networkModels.MainDisplayData
+import sample.networkModels.CurrentWeatherDisplayData
+import sample.networkModels.ForecastDisplayData
 import sample.networkModels.toDisplayModel
 import sample.utils.SettingsUtils
 import kotlin.coroutines.CoroutineContext
@@ -18,7 +15,8 @@ class WeatherPresenter(private val view: MainView,
                        private val uiContext: CoroutineContext = getMainDispatcher(),
                        private val lifeCycleOwner: KLifecycle) : BasePresenter(lifeCycleOwner) {
 
-    private val currentWeatherLiveData : KLiveData<MainDisplayData> = repository.getLData()
+    private val currentWeatherLiveData : KLiveData<CurrentWeatherDisplayData> = repository.getLiveCurrentData()
+    private val forecastLiveData : KLiveData<ForecastDisplayData> = repository.getLiveForecastData()
 
     private var cityIDSaved : Int? = null
     //private var activeQuery : Query<CurrentWeather>? = null
@@ -26,26 +24,33 @@ class WeatherPresenter(private val view: MainView,
 
     init {
 
-        currentWeatherLiveData.observe(lifeCycleOwner) {
-            Log.i("Kotlin is cool! City name -> " + it.name)
-            view.displayData(it)
-            cityIDSaved = it.city_id
+        // live data actually wants 2 seperate calls of kLifecycle, 1 for each livedata, I think commenting out a line in library and re-using both is fine for android (and more correct)
+        // Check KLiveData line 29 android implementation
 
-            // Listen to NEW city get rid of old city listener
-            /*
-            if (cityIDSaved != null && cityIDSaved != it.city_id) {
-                stopListenDBData()
-                cityIDSaved = it.city_id
-                listenForDBData(cityIDSaved!!)
-            }
-            else if (cityIDSaved == null) {
-                cityIDSaved = it.city_id
-                listenForDBData(cityIDSaved!!)
-            }*/
-        }
+      currentWeatherLiveData.observe(lifeCycleOwner) {
+          Log.i("Kotlin is cool! City name -> " + it.name)
+          view.displayCurrentData(it)
+          cityIDSaved = it.city_id
 
+          // Listen to NEW city get rid of old city listener
+          /*
+          if (cityIDSaved != null && cityIDSaved != it.city_id) {
+              stopListenDBData()
+              cityIDSaved = it.city_id
+              listenForDBData(cityIDSaved!!)
+          }
+          else if (cityIDSaved == null) {
+              cityIDSaved = it.city_id
+              listenForDBData(cityIDSaved!!)
+          }*/
+      }
 
-        checkForSavedCityID()
+      forecastLiveData.observe(lifeCycleOwner) {
+          Log.i("Forecast data observed -> temp " + it.city.list[0].main.temp + " degrees C")
+          view.displayForecastData(it)
+      }
+
+      checkForSavedCityID()
 
     }
 
@@ -96,7 +101,7 @@ class WeatherPresenter(private val view: MainView,
         launchAndCatch(uiContext, view::showError) {
             val dbWeather = DBHelper.getCurrentWeatherForCity(cityIDSaved!!).executeAsOne()
             //testLiveData.value = dbWeather.toDisplayModel()
-            view.displayData(dbWeather.toDisplayModel(false))
+            view.displayCurrentData(dbWeather.toDisplayModel(false))
 
             if (shouldCheckNetworkAfterDB) {
                 shouldCheckNetworkAfterDB = false
@@ -132,7 +137,7 @@ class WeatherPresenter(private val view: MainView,
         view.showLoader()
         Log.i("111111 launching network job")
         launchAndCatch(uiContext, view::showError) {
-            repository.searchCity(searchString)
+            repository.getCityCurrentWeatherBySearch(searchString)
         } finally {
             view.hideLoader()
         }
@@ -145,7 +150,7 @@ class WeatherPresenter(private val view: MainView,
         Log.i("111111 launching network job")
 
         launchAndCatch(uiContext, view::showError) {
-            repository.refresh(cityID)
+            repository.getCityCurrentWeatherByID(cityID)
             //view.displayData(displayData)
         } finally {
             view.hideLoader()
