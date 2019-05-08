@@ -18,7 +18,6 @@ object KApplication {
     fun setupApp() {
         database = WeatherDb(getDatabaseDriver())
         settings = getSettingsFactory().create("test_settings")
-
     }
 
 

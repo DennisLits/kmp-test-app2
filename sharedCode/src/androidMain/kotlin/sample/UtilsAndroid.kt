@@ -1,5 +1,6 @@
 package sample
 
+import android.content.Context
 import com.fhyber.multiweather.WeatherDb
 import com.russhwolf.settings.AndroidSettings
 import com.russhwolf.settings.Settings
@@ -51,7 +52,10 @@ actual fun getCurrentTimeMillis(): Long {
 }
 
 actual fun getDatabaseDriver(): SqlDriver {
-    return AndroidSqliteDriver(WeatherDb.Schema, CommonApplication.instance, "test.db")
+    return getDatabaseDriverFromContext(CommonApplication.instance)
+}
+fun getDatabaseDriverFromContext(context: Context): SqlDriver {
+    return AndroidSqliteDriver(WeatherDb.Schema, context, "test.db")
 }
 
 actual fun getSettingsFactory(): Settings.Factory {

@@ -20,11 +20,19 @@ class DBHelper{
         }
 
 
-
-
         fun getCurrentWeatherForCity(cityID: Int): Query<CurrentWeather> {
             return database.weatherQueries.selectCity(cityID)
         }
+
+
+
+
+        // For testing
+        fun countAllRows() : Long {
+            return database.weatherQueries.countAll().executeAsOne()
+        }
+
+
 
     }
 }

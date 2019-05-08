@@ -102,7 +102,6 @@ kotlin {
             api "androidx.lifecycle:lifecycle-livedata:2.1.0-alpha04"
         }
 
-
         iOSMain.dependencies {
             implementation "io.ktor:ktor-client-ios:$ktor_version"
             implementation "io.ktor:ktor-client-core-native:$ktor_version"
@@ -115,6 +114,25 @@ kotlin {
             implementation "com.squareup.sqldelight:ios-driver:$sqldelight_version"
 
 
+        }
+
+
+        commonTest.dependencies {
+            implementation "org.jetbrains.kotlin:kotlin-test-common:$kotlin_version"
+            implementation "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlin_version"
+            //implementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+        }
+
+        androidTest.dependencies {
+
+
+            implementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+            implementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+            api "io.ktor:ktor-client-mock-jvm:$ktor_version" // Does this need to be API?
+        }
+
+        iosTest.dependencies {
+            api "io.ktor:ktor-client-mock-native:$ktor_version" // Does this need to be API?
         }
 
 

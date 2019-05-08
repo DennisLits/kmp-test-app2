@@ -12,6 +12,14 @@ CREATE TABLE currentWeather (
 
 
 
+clear:
+DELETE FROM currentWeather;
+
+countAll:
+SELECT COUNT(*) FROM currentWeather;
+
+selectAll:
+SELECT * FROM currentWeather;
 
 selectCity:
 SELECT *
