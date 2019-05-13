@@ -5,13 +5,15 @@ import kotlinx.serialization.Serializable
 
 data class ForecastDisplayData(
     val fromNetwork : Boolean,
-    val city: CurrentCityForecastResponse
+    val city: CurrentCityForecastResponse,
+    val list: List<WeatherDay>
 )
 
 fun CurrentCityForecastResponse.toDisplayModel(fromNetwork: Boolean) : ForecastDisplayData {
     return ForecastDisplayData(
         fromNetwork = fromNetwork,
-        city = this
+        city = this,
+        list = list
     )
 }
 
