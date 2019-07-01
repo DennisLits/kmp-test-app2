@@ -43,8 +43,6 @@ class CoolTests {
         assertEquals(DBHelper.countAllRows(), 0)
 
 
-
-
     }
 
 

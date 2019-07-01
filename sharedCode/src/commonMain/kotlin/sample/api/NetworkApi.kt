@@ -2,8 +2,11 @@ package sample.api
 
 import io.ktor.client.HttpClient
 import io.ktor.client.features.ExpectSuccess
+
 import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.JsonSerializer
 import io.ktor.client.features.json.serializer.KotlinxSerializer
+
 import io.ktor.client.features.logging.DEFAULT
 import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logger
@@ -13,6 +16,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.http.*
 import io.ktor.util.StringValues
+import kotlinx.serialization.Serializer
 import kotlinx.serialization.json.Json
 import sample.Log
 import sample.isDebug
@@ -56,7 +60,8 @@ class NetworkApi(private val endPoint: String) {
             }
         }
 
-        install(ExpectSuccess)
+        // ExpectSuccess deprecated now use HttpValidator, also except success on by default
+        //install(ExpectSuccess)
     }
 
 

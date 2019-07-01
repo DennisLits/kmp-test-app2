@@ -20,6 +20,7 @@ import sample.networkModels.ForecastDisplayData
 import sample.networkModels.WeatherDay
 import sample.presentation.WeatherPresenter
 import sample.presentation.MainView
+import sample.presentation.NewStuffPresenter
 import sample.show
 import java.util.*
 import kotlin.collections.ArrayList
@@ -28,6 +29,7 @@ class WeatherSearchScreen(parentAct : BaseActivity) : BaseScreen(parentAct = par
 
 
     override val presenter by lazy { WeatherPresenter(this, DataRepositoryImpl(), lifeCycleOwner = getAct().kLifecycle()) }
+    //override val presenter by lazy { NewStuffPresenter(this, DataRepositoryImpl(), lifeCycleOwner = getAct().kLifecycle()) }
 
     private val forecastAdapter : ForecastAdapter
 

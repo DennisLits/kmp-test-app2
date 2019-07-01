@@ -10,7 +10,7 @@ sqldelight {
 }
 
 /*
-// Seems like OLD way?
+// OLD way
 sqldelight {
     className = "MyDatabase"
     packageName = "com.example"
@@ -22,10 +22,10 @@ sqldelight {
 
 android {
 
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         minSdkVersion 23
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
     }
@@ -76,6 +76,7 @@ kotlin {
             implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
             implementation "io.ktor:ktor-client:$ktor_version"
             implementation "io.ktor:ktor-client-json:$ktor_version"
+            implementation "io.ktor:ktor-client-serialization:$ktor_version"
             implementation "io.ktor:ktor-client-logging:$ktor_version"
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
             implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$kotlinx_serial_version"
@@ -83,7 +84,10 @@ kotlin {
             //implementation "com.soywiz:klock-metadata:$klock_version"
 
             // currently broken on iOS as of 0.2 some weird version difference, right now hard coded london ID in app instead
-            implementation "com.russhwolf:multiplatform-settings:0.3"
+            implementation "com.russhwolf:multiplatform-settings:0.3.2"
+
+            //implementation "com.badoo.reaktive-common:$reaktive_version"
+
 
         }
 
@@ -91,6 +95,7 @@ kotlin {
             implementation 'org.jetbrains.kotlin:kotlin-stdlib'
             implementation "io.ktor:ktor-client-core-jvm:$ktor_version"
             implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
+            implementation "io.ktor:ktor-client-serialization-jvm:$ktor_version"
             implementation "io.ktor:ktor-client-logging-jvm:$ktor_version"
             implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serial_version"
 
@@ -100,18 +105,23 @@ kotlin {
 
             // Maybe leave implementation in here and android app
             api "androidx.lifecycle:lifecycle-livedata:2.1.0-alpha04"
+
+            //implementation "com.badoo.reaktive-android:$reaktive_version"
         }
 
         iOSMain.dependencies {
             implementation "io.ktor:ktor-client-ios:$ktor_version"
             implementation "io.ktor:ktor-client-core-native:$ktor_version"
             implementation "io.ktor:ktor-client-json-native:$ktor_version"
+            implementation "io.ktor:ktor-client-serialization-native:$ktor_version"
             implementation "io.ktor:ktor-client-logging-native:$ktor_version"
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$kotlinx_coroutines_version"
             implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$kotlinx_serial_version"
 
 
             implementation "com.squareup.sqldelight:ios-driver:$sqldelight_version"
+
+            //implementation "com.badoo.reaktive-native:$reaktive_version"
 
 
         }
