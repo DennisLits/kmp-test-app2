@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     lazy var presenter : MainPresenter = {
         MainPresenter(view: self,
                       repository: DataRepositoryImpl(),
-                      uiContext:IosUtilities().getDispetcher(),
+                      uiContext:IosUtilities().getIOSDispatcher(),
                       lifeCycleOwner: lifecycle        )
     }()
     
