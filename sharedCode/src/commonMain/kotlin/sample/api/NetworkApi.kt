@@ -1,7 +1,6 @@
 package sample.api
 
 import io.ktor.client.HttpClient
-import io.ktor.client.features.ExpectSuccess
 
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.JsonSerializer
@@ -28,7 +27,7 @@ import kotlin.native.concurrent.ThreadLocal
 const val WEATHER_HOST = "api.openweathermap.org"
 
 const val METRIC_UNITS = "metric"
-const val WEATHER_API_KEY = "88feca02d25f9d3fde957167bb2cdbcd"
+const val WEATHER_API_KEY = "88feca02d25f9d3fde957167bb2cdbcd" // should be in keystore but oh well
 
 
 

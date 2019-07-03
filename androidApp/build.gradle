@@ -2,6 +2,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+def keystorePropertiesFile = rootProject.file("androidapp/keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     compileSdkVersion 29
     defaultConfig {
@@ -12,6 +16,14 @@ android {
         versionName "1.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['releaseKeyAlias']
+            keyPassword keystoreProperties['releaseKeyPassword']
+            storeFile file(rootDir.getCanonicalPath() + '/' + keystoreProperties['releaseKeyStore'])
+            storePassword keystoreProperties['releaseStorePassword']
+        }
+    }
     buildTypes {
 
 
@@ -19,12 +31,14 @@ android {
             // MPP libraries don't currently get this resolution automatically
             // Added so Multiplatform settings 0.2 works with debug || HACK
             matchingFallbacks = ['release']
+            signingConfig signingConfigs.release
         }
 
 
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 
@@ -58,6 +72,10 @@ android {
         unitTests {
             includeAndroidResources = true
         }
+    }
+
+    buildTypes.each {
+        it.buildConfigField 'String', 'weatherAPIKey', '"'+keystoreProperties['weatherAPIKey']+'"'
     }
 
 }
@@ -117,3 +135,4 @@ dependencies {
 
 
 }
+
